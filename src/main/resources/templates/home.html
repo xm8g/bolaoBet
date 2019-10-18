@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+	layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+	<section layout:fragment="corpo">
+		<main role="main">
+		<div class="container">
+		<br /><br /><br />
+		<div class="alert alert-success">Colocar algo aqui</div>
+		<button type="button" class="btn btn-danger">Sempre</button>
+		</div>
+		</main>
+	</section>
+	<script th:src="~{}" th:fragment="js"></script>
+	<script th:inline="javascript" th:fragment="inlinescript">
+		/*<![CDATA[*/
+		$(document).ready(function () {
+		
+			var senhaAlterada = /*[[${senhaAlterada}]]*/ null;
+		
+			console.log(senhaAlterada);
+			if (senhaAlterada === 'ok') {
+				toastr.success('Sucesso', 'Senha Alterada OK')
+			}
+		});
+		/*]]>*/
+	</script>
+</body>
+</html>

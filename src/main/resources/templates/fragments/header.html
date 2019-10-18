@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+	<header th:fragment="cabecalho" >
+		<nav class="navbar navbar-expand-md navbar-dark fixed-top back-gradient">
+			<img th:src="@{/image/icons/bola.png}" height="42" width="42" /><a class="navbar-brand" th:href="@{/}">&nbsp;&nbsp;BOLÃO BET</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarCollapse" aria-controls="navbarCollapse"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item dropdown" sec:authorize="hasAuthority('ADMIN')">
+						<a class="btn btn-dark dropdown-toggle" href="#" id="dropdown01"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clube/Times</a>
+						<div class="dropdown-menu" aria-labelledby="dropdown01">
+							<a class="dropdown-item" th:href="@{/times/novoTime}">Cadastrar</a> 
+							<a class="dropdown-item" th:href="@{/times/listagem}">Lista</a>
+<!-- 							<a class="dropdown-item" th:href="@{/campeonatos/cadastro}">Campeonatos</a> -->
+<!-- 							<a class="dropdown-item" th:href="@{/partidas/cadastro">Partidas</a> -->
+						</div>
+					</li>
+
+<!-- 					<li class="nav-item dropdown" sec:authorize="hasAuthority('ADMIN')"> -->
+<!-- 						<a class="btn btn-dark dropdown-toggle" href="#" id="dropdown02" -->
+<!-- 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tabelas</a> -->
+<!-- 						<div class="dropdown-menu" aria-labelledby="dropdown02"> -->
+<!-- 							<a class="dropdown-item" th:href="@{/clubes/tabela}">Clubes</a> -->
+<!-- 							<a class="dropdown-item" th:href="@{/campeonatos/tabela}">Campeonatos</a> -->
+<!-- 							<a class="dropdown-item" th:href="@{/partidas/tabela}">Partidas</a> -->
+<!-- 						</div> -->
+<!-- 					</li> -->
+					<li class="nav-item dropdown" sec:authorize="hasAuthority('USUARIO')">
+						<a class="btn btn-dark dropdown-toggle" href="#" id="dropdown03"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bolões</a>
+						<div class="dropdown-menu" aria-labelledby="dropdown03">
+							<a class="dropdown-item" th:href="@{/bolao/meusboloes}">Meus Bolões</a>
+							<a class="dropdown-item" th:href="@{/bolao/criar}">Criar Bolão</a>
+						</div>
+					</li>					
+				</ul>
+
+				<!-- Aparece pra quem não está autenticado -->
+				<form class="form-inline mt-2 mt-md-0" sec:authorize="!isAuthenticated()">
+					<div class="form-check mb-2 mr-sm-2">
+						<a class="btn btn-outline-warning my-2 my-sm-0" role="button"
+							th:href="@{/login}">Entrar</a>
+					</div>
+
+					<div class="form-check mb-2 mr-sm-2">
+						<a class="btn btn-outline-warning my-2 my-sm-0" role="button"
+							th:href="@{/usuario/cadastreSe}">Cadastrar-se</a>
+					</div>
+				</form>
+
+				<!-- Aparece pra quem está autenticado, o logout é controlado pelo SecurityConfig -->
+				<form th:action="@{/logout}" method="post" class="form-inline mt-2 mt-md-0" sec:authorize="isAuthenticated()">
+					<div class="btn-group mb-2 mr-sm-2">
+						<button type="button" class="btn btn-light">
+							<img th:src="@{/usuario/image}" height="32" width="32" /><span class="" sec:authentication="name"></span><!-- pega o username e exibe -->
+						</button>
+						<button type="button"
+							class="btn btn-success dropdown-toggle dropdown-toggle-split"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" th:href="@{/usuario/editar/senha}"><i class="fas fa-key"></i>&nbsp;&nbsp;Trocar Senha</a>
+							<a class="dropdown-item" th:href="@{/usuario/cadastrar/avatar}"><i class="fas fa-portrait"></i>&nbsp;&nbsp;Seu Avatar</a>
+							<div class="dropdown-divider"></div>
+							<button type="submit" class="dropdown-item">Sair</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</nav>
+	</header>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+	layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8" />
+
+</head>
+<body>
+	<section layout:fragment="corpo">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<div class="card">
+						<div class="card-header">
+							<b>Cadastrando um Clube</b>
+						</div>
+						<div class="card-body" style="font-size: 13px;">
+							<form th:action="@{/times/salvar}" method="POST" th:object="${time}" enctype="multipart/form-data" >
+							
+								<div th:replace="fragments/validacao :: validacao"></div>
+							
+								<div class="form-group">
+									<label for="nome"><font color="red">*</font>&nbsp;&nbsp;Nome:</label>
+									<input type="text" class="form-control" id="nome" name="nome" th:field="*{nome}" />
+								</div>
+								<div class="form-group">
+									<label for="pais"><font color="red">*</font>&nbsp;&nbsp;País: </label>
+									<input type="text" class="form-control" id="pais" name="pais" th:field="*{pais}" />
+								</div>
+								<div class="form-group">
+									<label for="escudo">Escudo.</label>
+									<input type="file" name="escudo" id="escudo" th:field="*{escudo}" onchange="readURL(this);" accept="image/x-png,image/gif,image/jpeg"  />
+									<img id="imgEscudo" width="32" height="32" src="#" />
+								</div>
+								<div class="card-footer">
+									<div class="text-center">
+										<button type="submit" id="btnSalvarTime" class="btn btn-success"
+											data-toggle="tooltip" data-placement="right" title="Salvar">
+											OK
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+		</div>
+	</section>
+	<script	th:src="@{/js/times/cadastro.js(v=${version})}" th:fragment="js"></script>
+	<script th:inline="javascript" th:fragment="inlinescript">
+		/*<![CDATA[*/
+		$(document).ready(function () {
+		
+			var sucesso = /*[[${sucesso}]]*/ null;
+		
+			console.log(sucesso);
+			if (sucesso === 'ok') {
+				toastr.success('Sucesso', 'Time Cadastrado OK')
+			}
+		});
+		/*]]>*/
+	</script>
+</body>
+</html>

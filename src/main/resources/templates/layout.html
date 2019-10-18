@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	th:with="version=${#strings.randomAlphanumeric(3)}">
+<head>
+<title>Bolão BET</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="bolão" />
+<meta name="author" content="alexronchi" />
+<link rel="icon" th:href="@{/image/favicon.ico}" />
+
+<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css(v=${version}) }" rel="stylesheet" />
+<link th:href="@{/webjars/toastr/build/toastr.min.css(v=${version}) }" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css" rel="stylesheet"/>
+<!-- jQueryUI (autocomplete) -->
+<link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css" rel="stylesheet"/>
+<!-- Icons fontawesome -->
+<link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" crossorigin="anonymous" rel="stylesheet" />
+<!-- Custom styles for this template -->
+<link th:href="@{/css/style-home.css(v=${version}) }" rel="stylesheet" />
+<link th:href="@{/css/easy-autocomplete.min.css}" rel="stylesheet" />
+<link th:href="@{/css/flags.css}" rel="stylesheet" />
+</head>
+<body>
+	<header th:replace="fragments/header :: cabecalho">
+		<div>header</div>
+	</header>
+	<br /><br /><br /><br />
+	
+	<div>	
+		<section layout:fragment="corpo">		
+			<div>conteudo principal das páginas</div>
+		</section>		
+	</div>
+
+	<footer th:replace="fragments/footer :: rodape">
+		<div>footer</div>
+	</footer>
+
+	<span th:replace="fragments/modal-confirm :: modal-confirm"></span>
+
+	<script th:src="@{/webjars/jquery/jquery.min.js(v=${version}) }"></script>
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js(v=${version}) }"></script>
+ 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	<script th:src="@{/webjars/toastr/build/toastr.min.js(v=${version}) }"></script>
+	<script th:src="@{/js/jquery.easy-autocomplete.min.js(v=${version}) }"></script>
+	<script	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script	src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+	<script	src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
+
+	<!-- 	MEUS JS -->
+	<script th:replace=":: js"></script>
+	<script th:replace=":: inlinescript" th:inline="javascript"></script>
+
+	<script type="text/javascript">
+		
+		var url = '';
+		
+		$('table').on('click', 'a', function() {
+			url = $(this).attr('href');
+		});
+		
+		$("#btnOk").on('click', function() {
+			document.location.href = url;
+		});
+		
+		$("#btnCancel").on('click', function() {
+			url = '';
+		});		
+	</script>
+</body>
+</html>

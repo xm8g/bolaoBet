@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+	layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+	<section layout:fragment="corpo">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<div class="card">
+						<div class="card-header">
+							<b>Troca de Senha</b>
+						</div>
+						<div class="card-body" style="font-size: 12px;">
+							<div th:replace="fragments/alert :: alerta-sucesso"></div>
+							<form th:action="@{/usuario/confirmar/senha}" method="POST" class="was-validated">
+								<div class="form-group">
+									<label for="senha3">Senha atual</label>
+									<input type="password" class="form-control" id="senha3" name="senha3" 
+										placeholder="Insira sua senha de acesso" value="" required />
+									<div class="invalid-feedback">Digite sua senha atual.</div>
+								</div>
+								<div class="form-group">
+									<label for="senha1">Nova senha</label>
+									<input type="password" class="form-control pass" id="senha1" name="senha1" value="" required />
+									<div class="invalid-feedback">Digite sua nova senha.</div>
+								</div>
+								<div class="form-group">
+									<label for="senha2">Repita nova senha</label>
+									<input type="password" class="form-control pass" id="senha2" name="senha2" value="" required />
+									<div class="invalid-feedback">Repita sua nova senha.</div>
+								</div>
+								<div class="card-footer">
+									<div class="text-center">
+										<button type="submit" id="btnTrocaSenha" class="btn btn-success"
+											data-toggle="tooltip" data-placement="right" title="Salvar" disabled>
+											<i class="fas fa-check-double"></i>
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+		</div>
+	</section>
+	<script th:src="@{/js/usuario.js(v=${version})}" th:fragment="js"></script>
+	<script th:inline="javascript" th:fragment="inlinescript"></script>
+</body>
+</html>
