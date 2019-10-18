@@ -72,6 +72,17 @@ public class TimesController {
 		return "times/cadastro";
 	}
 	
+	@PostMapping("/editar")
+	public String editar(@RequestParam("escudo") MultipartFile file, @Valid Time time, BindingResult result, ModelMap model) {
+		if (result.hasErrors()) {
+			return "times/cadastro";
+		}
+		timeService.editar(time);
+		model.addAttribute("sucesso", "ok");
+		
+		return "times/cadastro";
+	}
+	
 	
 
 }

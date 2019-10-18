@@ -46,5 +46,13 @@ public class TimeService {
 		return timeRepository.findById(id).get();
 	}
 	
+	@Transactional(readOnly = false)
+	public void editar(Time time) {
+		Time t2 = timeRepository.findById(time.getId()).get();
+		t2.setNome(time.getNome());
+		t2.setPais(time.getPais());
+		t2.setEscudo(time.getEscudo());
+	}
+	
 	
 }
