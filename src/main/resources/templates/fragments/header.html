@@ -16,28 +16,33 @@
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item dropdown" sec:authorize="hasAuthority('ADMIN')">
 						<a class="btn btn-dark dropdown-toggle" href="#" id="dropdown01"
-						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clube/Times</a>
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Campeonatos</a>
 						<div class="dropdown-menu" aria-labelledby="dropdown01">
-							<a class="dropdown-item" th:href="@{/times/novoTime}">Cadastrar</a> 
-							<a class="dropdown-item" th:href="@{/times/listagem}">Lista</a>
-<!-- 							<a class="dropdown-item" th:href="@{/campeonatos/cadastro}">Campeonatos</a> -->
-<!-- 							<a class="dropdown-item" th:href="@{/partidas/cadastro">Partidas</a> -->
+							<a class="dropdown-item" th:href="@{/campeonatos/novo}">Cadastrar</a> 
+							<a class="dropdown-item" th:href="@{/campeonatos/listagem}">Lista</a>
 						</div>
 					</li>
-
-<!-- 					<li class="nav-item dropdown" sec:authorize="hasAuthority('ADMIN')"> -->
-<!-- 						<a class="btn btn-dark dropdown-toggle" href="#" id="dropdown02" -->
-<!-- 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tabelas</a> -->
-<!-- 						<div class="dropdown-menu" aria-labelledby="dropdown02"> -->
-<!-- 							<a class="dropdown-item" th:href="@{/clubes/tabela}">Clubes</a> -->
-<!-- 							<a class="dropdown-item" th:href="@{/campeonatos/tabela}">Campeonatos</a> -->
-<!-- 							<a class="dropdown-item" th:href="@{/partidas/tabela}">Partidas</a> -->
-<!-- 						</div> -->
-<!-- 					</li> -->
-					<li class="nav-item dropdown" sec:authorize="hasAuthority('USUARIO')">
+					<li class="nav-item dropdown" sec:authorize="hasAuthority('ADMIN')">
+						<a class="btn btn-dark dropdown-toggle" href="#" id="dropdown02"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Partidas</a>
+						<div class="dropdown-menu" aria-labelledby="dropdown02">
+							<a class="dropdown-item" th:href="@{/partidas/nova}">Cadastrar</a> 
+							<a class="dropdown-item" th:href="@{/partidas/listagem}">Lista</a>
+							<a class="dropdown-item" th:href="@{/partidas/resultados}">Resultados</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown" sec:authorize="hasAuthority('ADMIN')">
 						<a class="btn btn-dark dropdown-toggle" href="#" id="dropdown03"
-						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bolões</a>
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clube/Times</a>
 						<div class="dropdown-menu" aria-labelledby="dropdown03">
+							<a class="dropdown-item" th:href="@{/times/novoTime}">Cadastrar</a> 
+							<a class="dropdown-item" th:href="@{/times/listagem}">Lista</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown" sec:authorize="hasAuthority('USUARIO')">
+						<a class="btn btn-dark dropdown-toggle" href="#" id="dropdown04"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bolões</a>
+						<div class="dropdown-menu" aria-labelledby="dropdown04">
 							<a class="dropdown-item" th:href="@{/bolao/meusboloes}">Meus Bolões</a>
 							<a class="dropdown-item" th:href="@{/bolao/criar}">Criar Bolão</a>
 						</div>

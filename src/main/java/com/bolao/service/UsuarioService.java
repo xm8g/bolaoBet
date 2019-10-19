@@ -57,11 +57,11 @@ public class UsuarioService implements UserDetailsService {
 				AuthorityUtils.createAuthorityList(getAuthorities(usuario.getPerfis())));
 	}
 	
-//	public static void main(String... args) {
-//		String crypt = new BCryptPasswordEncoder().encode("123456");
+	public static void main(String... args) {
+		String crypt = new BCryptPasswordEncoder().encode("123456");
 //		//boolean matches = new BCryptPasswordEncoder().matches("123456", "$2a$10$SRg7H75roSECL5..z6R23.J9/ThCyJBS4VPNrYgLzgGj0vkRxF/tC");
-//		System.out.println(crypt);
-//	}
+		System.out.println(crypt);
+	}
 
 	private String[] getAuthorities(List<Perfil> perfis) {
 		return perfis.stream().map(p -> p.getDesc()).toArray(String[]::new);
