@@ -51,7 +51,10 @@ public class TimeService {
 		Time t2 = timeRepository.findById(time.getId()).get();
 		t2.setNome(time.getNome());
 		t2.setPais(time.getPais());
-		t2.setEscudo(time.getEscudo());
+		t2.setCasa(time.getCasa());
+		if (time.getEscudo() != null) {
+			t2.setEscudo(time.getEscudo());
+		}
 	}
 	
 	

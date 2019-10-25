@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+	  layout:decorate="~{layout}">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<meta charset="UTF-8" />
 </head>
 <body>
-Listagem de Campeonatos
+
+	<section class="layout-content" layout:fragment="corpo">
+		<main role="main">
+
+			<div class="container">
+				<div class="d-flex justify-content-center" style="font-size: 13px;">
+					<div class="col-md-8">
+						<h3>Campeonatos</h3>
+
+						<table id="table-campeonatos"
+							class="table table-sm table-striped table-bordered"
+							style="width: 100%">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Logo</th>
+									<th scope="col">Nome</th>
+									<th scope="col">Rodadas/Fases</th>
+									<th scope="col">Editar</th>
+									<th scope="col">Exluir</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</main>
+		
+	</section>
+	<script th:src="@{/js/campeonatos/campeonatos.js(v=${version})}" th:fragment="js"></script>
+	<script th:inline="javascript" th:fragment="inlinescript"></script>
 </body>
 </html>

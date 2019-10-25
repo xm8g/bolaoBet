@@ -1,10 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+	layout:decorate="~{layout}">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<meta charset="UTF-8" />
+
 </head>
 <body>
-Cadastro de campeonatos
+	<section layout:fragment="corpo">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<div class="card">
+						<div class="card-header">
+							<b>Cadastrando um Campeonato</b>
+						</div>
+						<div class="card-body" style="font-size: 13px;">
+							<form th:action="${campeonato.id == null} ? @{/campeonatos/salvar} : @{/campeonatos/editar}" method="POST" th:object="${campeonato}" enctype="multipart/form-data" >
+							
+								<div th:replace="fragments/validacao :: validacao"></div>
+							
+								<div class="form-group">
+									<label for="nome"><font color="red">*</font>&nbsp;&nbsp;Nome:</label>
+									<input type="text" class="form-control" id="nome" name="nome" th:field="*{nome}" />
+								</div>
+								<div class="form-group">
+									<label for="rodadas"><font color="red">*</font>&nbsp;&nbsp;N° de rodadas/fases: </label>
+									<input type="number" class="form-control" id="rodadas" name="rodadas" th:field="*{rodadas}" min="1" />
+								</div>
+								<div class="form-group">
+									<label for="escudo">Logo.</label>
+									<input type="file" name="escudo" id="escudo" th:field="*{escudo}" onchange="readURL(this);" accept="image/x-png,image/gif,image/jpeg"  />
+									<img id="imgEscudo" width="64" height="64" src="#" />
+								</div>
+								<input type="hidden" th:field="*{id}">
+								<div class="card-footer">
+									<div class="text-center">
+										<button type="submit" id="btnSalvarCampeonato" class="btn btn-success"
+											data-toggle="tooltip" data-placement="right" title="Salvar">
+											OK
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+		</div>
+	</section>
+	<script	th:src="@{/js/campeonatos/campeonatos.js(v=${version})}" th:fragment="js"></script>
+	<script th:inline="javascript" th:fragment="inlinescript">
+		/*<![CDATA[*/
+		$(document).ready(function () {
+		
+			var sucesso = /*[[${sucesso}]]*/ null;
+		
+			if (sucesso === 'ok') {
+				toastr.success('Sucesso', 'Campeonato Cadastrado OK')
+			}
+		});
+		/*]]>*/
+	</script>
 </body>
 </html>

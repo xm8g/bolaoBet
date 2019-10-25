@@ -1,12 +1,14 @@
 package com.bolao.entity;
 
-import javax.persistence.Embeddable;
+import java.util.List;
+
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,8 +27,18 @@ public class Time extends AbstractEntity {
 	
 	@NotBlank(message="O 'País' é Campo Obrigatório!")
 	private String pais;
+	
+	@NotBlank(message="Onde o time sedia seus jogos em casa?")
+	private String casa;
 
 	@Embedded
-	@NotNull(message="O 'Escudo do Time' é Campo Obrigatório!")
 	private Escudo escudo;
+	
+	@ManyToMany
+	@JoinTable(
+			name = "campeonatos_tem_times",
+			joinColumns = @JoinColumn(name = "id_time", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(name = "id_campeonato", referencedColumnName = "id")
+    )
+	private List<Campeonato> campeonato;
 }
