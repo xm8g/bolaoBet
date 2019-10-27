@@ -9,8 +9,8 @@
 	<section layout:fragment="corpo">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-4"></div>
-				<div class="col-md-4">
+				<div class="col-md-2"></div>
+				<div class="col-md-8">
 					<div class="card">
 						<div class="card-header">
 							<b>Cadastrando um Campeonato</b>
@@ -25,6 +25,10 @@
 									<input type="text" class="form-control" id="nome" name="nome" th:field="*{nome}" />
 								</div>
 								<div class="form-group">
+									<label for="pais"><font color="red">*</font>&nbsp;&nbsp;País:</label>
+									<input type="text" class="form-control" id="pais" name="pais" th:field="*{pais}" autocomplete="off" />
+								</div>
+								<div class="form-group">
 									<label for="rodadas"><font color="red">*</font>&nbsp;&nbsp;N° de rodadas/fases: </label>
 									<input type="number" class="form-control" id="rodadas" name="rodadas" th:field="*{rodadas}" min="1" />
 								</div>
@@ -33,6 +37,7 @@
 									<input type="file" name="escudo" id="escudo" th:field="*{escudo}" onchange="readURL(this);" accept="image/x-png,image/gif,image/jpeg"  />
 									<img id="imgEscudo" width="64" height="64" src="#" />
 								</div>
+								<input type="button" id="btnSearchPaises" class="btn btn-secondary" value="Procurar" />
 								<input type="hidden" th:field="*{id}">
 								<div class="card-footer">
 									<div class="text-center">
@@ -46,7 +51,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-4"></div>
+				<div class="col-md-2"></div>
 			</div>
 		</div>
 	</section>

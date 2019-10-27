@@ -31,6 +31,9 @@ public class Campeonato extends AbstractEntity {
 
 	@NotBlank(message = "O 'Nome' é Campo Obrigatório!")
 	private String nome;
+	
+	@NotBlank(message="O 'País' é Campo Obrigatório!")
+	private String pais;
 
 	@Embedded
 	@NotNull(message = "O 'Escudo do Time' é Campo Obrigatório!")

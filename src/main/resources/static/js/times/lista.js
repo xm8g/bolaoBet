@@ -4,7 +4,7 @@ $(document).ready(function() {
            url: '../../Portuguese-Brasil.json',
         },
         searching : true,
-        lengthMenu : [ 5, 10 ],
+        lengthMenu : [ 10, 10 ],
         processing : true,
         serverSide : true,
         responsive : true,

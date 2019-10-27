@@ -54,6 +54,12 @@
 	<script	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 	<script	src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 	<script	src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
+	<script>
+    	var pathToDwrServlet = "http://directwebremoting.org/bolaoBet/dwr";
+  	</script>
+	<script	type="text/javascript" th:src="@{/dwr/engine.js}"></script>
+	<script	type="text/javascript" th:src="@{/dwr/interface/DWRConsultas.js}"></script>
+	<script	type="text/javascript" th:src="@{/dwr/util.js}"></script>
 
 	<!-- 	MEUS JS -->
 	<script th:replace=":: js"></script>
@@ -74,6 +80,8 @@
 		$("#btnCancel").on('click', function() {
 			url = '';
 		});		
+		
+		DWRConsultas.buscarTimesPeloPais('BRAZIL');
 	</script>
 </body>
 </html>
