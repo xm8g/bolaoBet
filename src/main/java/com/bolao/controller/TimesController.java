@@ -1,9 +1,13 @@
 package com.bolao.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -81,6 +85,15 @@ public class TimesController {
 		model.addAttribute("sucesso", "ok");
 		
 		return "times/cadastro";
+	}
+	
+	@GetMapping("/buscarPeloPais")
+	public ResponseEntity<?> procurarTimesDoPais(@RequestParam("pais") String pais) {
+		List<Time> times = timeService.procurarTimesDoPais(pais);
+		if (CollectionUtils.isNotEmpty(times)) {
+			return ResponseEntity.ok(times);
+		}	
+		return ResponseEntity.notFound().build();
 	}
 	
 	

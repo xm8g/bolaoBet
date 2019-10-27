@@ -13,13 +13,6 @@ function readURL(input) {
 $(document).ready(function() {
 	
 	
-	$("#btnSearchPaises").click(function() {
-		if ($("#pais").val() != '') {
-			DWRConsultas.buscarTimesPeloPais('aaa');
-		}
-	});
-	
-	
     var table = $('#table-campeonatos').DataTable({
     	language: {
            url: '../../Portuguese-Brasil.json',
@@ -86,17 +79,45 @@ $(document).ready(function() {
 	$('#pais').easyAutocomplete(options);
 	
 	
+	$('#pais').change(function(e) {
+		
+		var pais = $(this).val();
+		$.getJSON( "/paises.json", function( paises ) {
+			$.each( paises, function( key, val ) {
+				if (pais == val.name) {
+					$.ajax({
+						method: "GET",
+						url: "/times/buscarPeloPais?pais="+pais, 
+						success : function(times) {
+							$.each(times, function(i, v) {
+								var item = '<a href="#" class="list-group-item list-group-item-action">'+v.nome+'<input type="checkbox" class="float-right"></a>';
+								$("#listSelecionaveis").append(item);
+							});
+						},
+						statusCode: {
+							404: function() {
+								bootbox.alert('Não há times cadastrados para este país');
+							}
+						}
+					});
+				}
+			});
+		});
+		
+	});
+	
+	
 	/******************************************* PICK LIST DE TIMES ************************************/
 	
 	$('.add').click(function(){
 	    $('.all').prop("checked",false);
-	    var items = $("#list1 input:checked:not('.all')");
+	    var items = $("#listSelecionaveis input:checked:not('.all')");
 	    var n = items.length;
 	  	if (n > 0) {
 	      items.each(function(idx,item){
 	        var choice = $(item);
 	        choice.prop("checked",false);
-	        choice.parent().appendTo("#list2");
+	        choice.parent().appendTo("#listSelecionados");
 	      });
 	  	}
 	    else {
@@ -106,11 +127,11 @@ $(document).ready(function() {
 
 	$('.remove').click(function(){
 	    $('.all').prop("checked",false);
-	    var items = $("#list2 input:checked:not('.all')");
+	    var items = $("#listSelecionados input:checked:not('.all')");
 		items.each(function(idx,item){
 	      var choice = $(item);
 	      choice.prop("checked",false);
-	      choice.parent().appendTo("#list1");
+	      choice.parent().appendTo("#listSelecionaveis");
 	    });
 	});
 
@@ -133,7 +154,7 @@ $(document).ready(function() {
 
 	/* toggle checkbox when list group item is clicked */
 	$('.list-group a').click(function(e){
-	  
+		console.log(e)
 	    e.stopPropagation();
 	  
 	  	var $this = $(this).find("[type=checkbox]");

@@ -9,8 +9,7 @@
 	<section layout:fragment="corpo">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-2"></div>
-				<div class="col-md-8">
+				<div class="col-md-6">
 					<div class="card">
 						<div class="card-header">
 							<b>Cadastrando um Campeonato</b>
@@ -26,7 +25,7 @@
 								</div>
 								<div class="form-group">
 									<label for="pais"><font color="red">*</font>&nbsp;&nbsp;País:</label>
-									<input type="text" class="form-control" id="pais" name="pais" th:field="*{pais}" autocomplete="off" />
+									<input type="text" class="form-control" id="pais" name="pais" th:field="*{pais}" autocomplete="off" onchange="console.log(this.value)"  />
 								</div>
 								<div class="form-group">
 									<label for="rodadas"><font color="red">*</font>&nbsp;&nbsp;N° de rodadas/fases: </label>
@@ -37,7 +36,23 @@
 									<input type="file" name="escudo" id="escudo" th:field="*{escudo}" onchange="readURL(this);" accept="image/x-png,image/gif,image/jpeg"  />
 									<img id="imgEscudo" width="64" height="64" src="#" />
 								</div>
-								<input type="button" id="btnSearchPaises" class="btn btn-secondary" value="Procurar" />
+								<div class="row">
+							        <div class="col-md-12 text-center"><h4>Coloque a direita os clube/times participantes</h4></div>
+							  		<div class="col-md-4 col-sm-offset-1">
+							          <div class="list-group" id="listSelecionaveis">
+							          <a href="#" class="list-group-item active">Times disponíveis <input title="toggle all" type="checkbox" class="all float-right"></a>
+							          </div>
+							        </div>
+							        <div class="col-md-2 v-center">
+							     		<button class="btn btn-secondary d-block mx-auto add"><i class="fas fa-chevron-right"></i></button>
+							            <button class="btn btn-secondary d-block mx-auto remove"><i class="fas fa-chevron-left"></i></button>
+							        </div>
+							        <div class="col-md-4">
+							    	  <div class="list-group" id="listSelecionados">
+							          	<a href="#" class="list-group-item active">Participantes<input title="toggle all" type="checkbox" class="all float-right"></a>
+							          </div>
+							        </div>
+							  	</div>
 								<input type="hidden" th:field="*{id}">
 								<div class="card-footer">
 									<div class="text-center">
@@ -51,7 +66,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-2"></div>
+				<div class="col-md-1"></div>
 			</div>
 		</div>
 	</section>

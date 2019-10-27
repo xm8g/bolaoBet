@@ -1,5 +1,6 @@
 package com.bolao.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,6 +56,12 @@ public class TimeService {
 		if (time.getEscudo() != null) {
 			t2.setEscudo(time.getEscudo());
 		}
+	}
+
+	@Transactional(readOnly = true)
+	public List<Time> procurarTimesDoPais(String pais) {
+		
+		return timeRepository.findByPais(pais);
 	}
 	
 	
