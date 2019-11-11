@@ -8,14 +8,15 @@
 <body>
 	<section layout:fragment="corpo">
 		<div class="container">
-			<div class="row">
-				<div class="col-md-6">
-					<div class="card">
-						<div class="card-header">
-							<b>Cadastrando um Campeonato</b>
-						</div>
-						<div class="card-body" style="font-size: 13px;">
-							<form th:action="${campeonato.id == null} ? @{/campeonatos/salvar} : @{/campeonatos/editar}" method="POST" th:object="${campeonato}" enctype="multipart/form-data" >
+			<div class="card">
+				<div class="card-header">
+					<b>Cadastrando um Campeonato</b>
+				</div>
+				<form th:action="${campeonato.id == null} ? @{/campeonatos/salvar} : @{/campeonatos/editar}" method="POST" th:object="${campeonato}" enctype="multipart/form-data" >
+					
+					<div class="card-body" style="font-size: 13px;">
+						<div class="row">
+							<div class="col-md-5">
 							
 								<div th:replace="fragments/validacao :: validacao"></div>
 							
@@ -32,41 +33,58 @@
 									<input type="number" class="form-control" id="rodadas" name="rodadas" th:field="*{rodadas}" min="1" />
 								</div>
 								<div class="form-group">
+									<label for="qtdeTimes"><font color="red">*</font>&nbsp;&nbsp;N° de times participantes: </label>
+									<input type="number" class="form-control" id="qtdeTimes" name="qtdeTimes" th:field="*{qtdeTimes}" min="2" />
+								</div>
+								<div class="form-group">
 									<label for="escudo">Logo.</label>
 									<input type="file" name="escudo" id="escudo" th:field="*{escudo}" onchange="readURL(this);" accept="image/x-png,image/gif,image/jpeg"  />
 									<img id="imgEscudo" width="64" height="64" src="#" />
 								</div>
+							</div>
+							<div class="col-md-1"></div>
+							<div class="col-md-5 text-center">
 								<div class="row">
-							        <div class="col-md-12 text-center"><h4>Coloque a direita os clube/times participantes</h4></div>
-							  		<div class="col-md-4 col-sm-offset-1">
-							          <div class="list-group" id="listSelecionaveis">
-							          <a href="#" class="list-group-item active">Times disponíveis <input title="toggle all" type="checkbox" class="all float-right"></a>
-							          </div>
+						        	<div class="col-md-12 text-center"><h5>Coloque a direita os clube/times participantes</h5></div>
+						        </div>
+						        <hr />
+						        <div class="row">
+							  		<div class="col-md-5 col-sm-offset-1">
+							        	<div class="list-group" id="listSelecionaveis">
+							          		<a href="#" class="list-group-item active">Times disponíveis <input title="toggle all" type="checkbox" class="all float-right"></a>
+							          	</div>
 							        </div>
 							        <div class="col-md-2 v-center">
-							     		<button class="btn btn-secondary d-block mx-auto add"><i class="fas fa-chevron-right"></i></button>
-							            <button class="btn btn-secondary d-block mx-auto remove"><i class="fas fa-chevron-left"></i></button>
+							     		<button type="button" class="btn btn-secondary d-block mx-auto add"><i class="fas fa-chevron-right"></i></button>
+							            <button type="button" class="btn btn-secondary d-block mx-auto remove"><i class="fas fa-chevron-left"></i></button>
 							        </div>
-							        <div class="col-md-4">
-							    	  <div class="list-group" id="listSelecionados">
-							          	<a href="#" class="list-group-item active">Participantes<input title="toggle all" type="checkbox" class="all float-right"></a>
-							          </div>
+							        <div th:if="${campeonato == null}" class="col-md-5">
+							    		<div class="list-group" id="listSelecionados">
+							          		<a href="#" class="list-group-item active">Participantes<input title="toggle all" type="checkbox" class="all float-right"></a>
+							          	</div>
+							        </div>
+							        <div th:if="${campeonato != null}" class="col-md-5">
+							    		<div class="list-group" id="listSelecionados">
+							          		<a href="#" class="list-group-item active">Participantes<input title="toggle all" type="checkbox" class="all float-right"></a>
+							          		<th:block th:each="time : ${campeonato.times}">
+							          			<a href="#" class="list-group-item list-group-item-action">
+							          				<img width="16" height="16" class="float-left" th:src="@{'data:image/png;base64,' + ${time.logo}}" /><th:block th:text="${time.nome}" />
+							          				<input type="checkbox" name="times" class="float-right" th:field="*{times}" th:value="${time.id}">
+							          			</a>
+							          		</th:block>
+							          	</div>
 							        </div>
 							  	</div>
-								<input type="hidden" th:field="*{id}">
-								<div class="card-footer">
-									<div class="text-center">
-										<button type="submit" id="btnSalvarCampeonato" class="btn btn-success"
-											data-toggle="tooltip" data-placement="right" title="Salvar">
-											OK
-										</button>
-									</div>
-								</div>
-							</form>
+							</div>
+						</div>
+					</div> 
+					<input type="hidden" th:field="*{id}">
+					<div class="card-footer">
+						<div class="text-center">
+							<button type="submit" id="btnSalvarCampeonato" class="btn btn-success" data-toggle="tooltip" data-placement="right" title="Salvar">OK</button>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-1"></div>
+				</form>
 			</div>
 		</div>
 	</section>
@@ -76,10 +94,11 @@
 		$(document).ready(function () {
 		
 			var sucesso = /*[[${sucesso}]]*/ null;
-		
+			
 			if (sucesso === 'ok') {
 				toastr.success('Sucesso', 'Campeonato Cadastrado OK')
 			}
+			
 		});
 		/*]]>*/
 	</script>

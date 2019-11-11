@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,11 @@ public class CampeonatoController {
 
 	@Autowired
 	private CampeonatoService campeonatoService;
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		binder.addValidators(new CampeonatoValidator());
+	}
 	
 	@GetMapping("/novo")
 	public String novoCampeonato(Campeonato campeonato, Model model) {
@@ -81,5 +88,12 @@ public class CampeonatoController {
 		model.addAttribute("sucesso", "ok");
 		
 		return "campeonatos/cadastro";
+	}
+	
+	@GetMapping("/excluir/{id}")
+	public String excluirTime(@PathVariable("id") Long id,  RedirectAttributes attr) {
+		campeonatoService.remover(id);
+		
+		return "redirect:/campeonatos/listagem";
 	}
 }

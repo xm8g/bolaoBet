@@ -8,7 +8,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +40,7 @@ public class Time extends AbstractEntity {
 	@Embedded
 	private Escudo escudo;
 	
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(
 			name = "campeonatos_tem_times",
@@ -41,4 +48,14 @@ public class Time extends AbstractEntity {
 			inverseJoinColumns = @JoinColumn(name = "id_campeonato", referencedColumnName = "id")
     )
 	private List<Campeonato> campeonato;
+	
+	@Transient
+	private String logo;
+	
+	public String getLogo() {
+		if (escudo != null) {
+			return Base64.encodeBase64String(escudo.getData()); 
+		}
+		return StringUtils.EMPTY;
+	}
 }

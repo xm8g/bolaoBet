@@ -52,4 +52,9 @@ public class CampeonatoService {
 	public List<Campeonato> todos() {
 		return campeonatoRepository.findAll();
 	}
+
+	@Transactional(readOnly = false)
+	public void remover(Long id) {
+		campeonatoRepository.deleteById(id);		
+	}
 }

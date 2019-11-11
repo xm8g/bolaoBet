@@ -42,7 +42,9 @@ public class Campeonato extends AbstractEntity {
 	@Min(value = 1, message = "O n° de rodadas/fases deve ser maior ou igual a 1.")
 	private int rodadas;
 	
-	@JsonIgnore
+	@Min(value = 2, message = "Informe o número de times que participarão.")
+	private int qtdeTimes;
+	
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
 			name = "campeonatos_tem_times",

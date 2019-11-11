@@ -25,7 +25,7 @@ $(document).ready(function() {
         columns : [
             {data : 'id'},
             {orderable : false, data: 'escudo.data', "render" : function(img) {
-            		return '<img src="data:image/png;base64,'+img+'" />';	
+            		return '<img width="32" height="32" src="data:image/png;base64,'+img+'" />';	
             	}	
             },
             {data : 'nome'},
