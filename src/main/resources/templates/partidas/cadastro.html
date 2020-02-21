@@ -8,64 +8,85 @@
 <body>
 	<section layout:fragment="corpo">
 		<div class="container">
-			<form th:action="${partida.id == null} ? @{/partidas/salvar} : @{/partidas/editar}" method="POST" th:object="${partida}">
-			<div class="row">
-				<div class="col-md-4"></div>
-				<div class="col-md-4">
-					<div class="card">
-						<div class="card-header">
-							<b>Cadastro de partidas do Campeonato</b>
-						</div>
-						<div class="card-body" style="font-size: 13px;">
-							
-							<div th:replace="fragments/validacao :: validacao"></div>
-						
-							<div class="form-group">
-								<label for="campeonato"><font color="red">*</font>&nbsp;&nbsp;Campeonato:</label>
-								<select class="form-control" id="campeonato" name="campeonato" th:field="*{campeonato}">
-									<option value=""></option>
-                            		<option th:each="c : ${campeonatos}" th:text="${c.nome}" th:value="${c.id}"></option>
-								</select>
+			<form id="partidas-add" action="#"> 
+				<div class="row">
+					<div class="col-md-4"></div>
+					<div class="col-md-4">
+						<div class="card">
+							<div class="card-header">
+								<b>Cadastro de partidas do Campeonato</b>
 							</div>
-							<div class="form-group">
-								<label for="rodada"><font color="red">*</font>&nbsp;&nbsp;Rodada: </label>
-								<input type="number" class="form-control" id="rodada" name="rodada" th:field="*{rodada}" min="1" />
+							<div class="card-body" style="font-size: 13px;">
+								<div class="form-group">
+									<label for="campeonato"><font color="red">*</font>&nbsp;&nbsp;Campeonato:</label>
+									<select class="form-control" id="campeonato" name="campeonato">
+										<option value=""></option>
+	                            		<option th:each="c : ${campeonatos}" th:text="${c.nome}" th:value="${c.id}"></option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="rodada"><font color="red">*</font>&nbsp;&nbsp;Rodada: </label>
+									<select class="form-control" id="rodada" name="rodada">
+										<option value=""></option>
+									</select>
+								</div>
 							</div>
 						</div>
 					</div>
+					<div class="col-md-4"></div>
 				</div>
-				<div class="col-md-4"></div>
-			</div>
-			<div class="row">
-				<div class="col-md-1"></div>
-				<div class="col-md-10">
-					<div class="card">
-						<div class="card-header">
-							<div class="step-wizard">
-    							<div class="progress">
-      								<div class="progressbar empty"></div>
-      								<div id="progresso" class="progressbar"></div>
-								    <ul class="ul-wizard">
-								      <li class="li-wizard active">
-								        <a href="#" id="partida1">
-								          <span class="step">1</span>
-								        </a>
-								      </li>
-								    </ul>
-  								</div>
-							</div>
-						</div>
-						<div class="card-body" style="font-size: 13px;">
-							
-						</div>
-					</div>
+				<hr />
+				<div class="card principal" style="display: none;">
+					<div class="card-header">
+						<div class="row">
+    					<div class="col-md-3 text-center">Times</div>
+    					<div class="col-md-6 text-center" id="colRodada"></div>
+    					<div class="col-md-3 text-center">Locais dos Jogos</div>
+    					</div>
+  					</div>
+  					<div class="card-body">
+	  					<div class="row">
+	  						<div class="col-md-3">
+	  							<div class="card" id="cardTimes"></div>
+	  						</div>
+	    					<div class="col-md-6 text-center" id="divJogosRodada">
+   								<div class="card jogos">
+   									<div class="card-header">
+   										Mandante x Visitante
+   									</div>
+   									<div class="card-body">
+   										<div class="row">
+   											<div class="col-md-5 casa" id="card-mandante" data-mandante=""><small>Arraste e solte o time da casa aqui</small></div>
+   											<div class="col-md-2 pt-1">X</div>
+   											<div class="col-md-5 fora" id="card-visitante" data-visitante=""><small>Arraste e solte o time visitante aqui</small></div>
+   										</div>
+   										<div class="row">
+   											<div class="col-md-12 mt-1 localPartida"><small>Arraste e solte o local da partida aqui</small></div>
+   										</div>
+   										<div class="row">
+   											<div class="col-md-12 mt-1">
+   												Dia e Horário: <input type="datetime-local" name="data">
+   											</div>
+   										</div>
+   									</div>
+   									<div class="card-footer">
+   										<div class="btn-group">
+  											<button type="button" id="btnCleanCard" class="btn btn-sm btn-danger"><i class="fas fa-eraser"></i></button>
+  											<button type="button" id="btnSave" class="btn btn-sm btn-success"><i class="fas fa-plus-circle"></i></button>
+										</div>	
+   									</div>
+   								</div>
+	    					</div>
+	    					<div class="col-md-3 text-center">
+	    						<div class="card" id="cardLocais"></div>
+	    					</div>
+	  					</div>
+	  				</div>
 				</div>
-				<div class="col-md-1"></div>
-			</div>
 			</form>
 		</div>
 	</section>
-	<script	th:src="@{/js/campeonatos/partidas.js(v=${version})}" th:fragment="js"></script>
+	<script	th:src="@{/js/partidas/partidas.js(v=${version})}" th:fragment="js"></script>
 	<script th:inline="javascript" th:fragment="inlinescript">
 		/*<![CDATA[*/
 		$(document).ready(function () {

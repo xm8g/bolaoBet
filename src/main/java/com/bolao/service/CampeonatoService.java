@@ -1,5 +1,6 @@
 package com.bolao.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bolao.entity.Campeonato;
+import com.bolao.entity.Time;
 import com.bolao.entity.dto.Datatables;
 import com.bolao.entity.dto.DatatablesColunas;
 import com.bolao.repository.CampeonatoRepository;
@@ -47,6 +49,15 @@ public class CampeonatoService {
 	@Transactional(readOnly = false)
 	public Campeonato buscarCampeonato(Long id) {
 		return campeonatoRepository.findById(id).get();
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Time> buscarTimes(Long id) {
+		Campeonato campeonato = buscarCampeonato(id);
+		if (campeonato != null) {
+			return campeonato.getTimes();
+		}
+		return new ArrayList<>();
 	}
 
 	public List<Campeonato> todos() {

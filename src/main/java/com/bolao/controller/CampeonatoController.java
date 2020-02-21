@@ -1,5 +1,7 @@
 package com.bolao.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -21,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bolao.entity.Campeonato;
+import com.bolao.entity.Time;
 import com.bolao.service.CampeonatoService;
 
 @Controller
@@ -75,6 +78,16 @@ public class CampeonatoController {
 		Campeonato campeonato = campeonatoService.buscarCampeonato(Long.valueOf(idCampeonato));
 		if (CollectionUtils.isNotEmpty(campeonato.getTimes())) {
 			return ResponseEntity.ok(campeonato.getTimes().size());
+		}
+		return ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping("/times")
+	public ResponseEntity<?> getTimes(@RequestParam("idCampeonato") String idCampeonato ) {
+		
+		List<Time> times = campeonatoService.buscarTimes(Long.valueOf(idCampeonato));
+		if (CollectionUtils.isNotEmpty(times)) {
+			return ResponseEntity.ok(times);
 		}
 		return ResponseEntity.notFound().build();
 	}
