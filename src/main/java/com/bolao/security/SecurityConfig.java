@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						"/usuario/image",
 						"/usuario/avatar/salvar",
 						"/usuario/confirmar/senha").permitAll()
-			.antMatchers("/times/**", "/campeonatos/**").hasAuthority(ADMIN)
+			.antMatchers("/times/**", "/campeonatos/**", "/partidas/**").hasAuthority(ADMIN)
 			// acessos para medicos
 			//.antMatchers("/medicos/dados", "/medicos/salvar", "/medicos/editar").hasAnyAuthority(ADMIN, MEDICO)
 			//.antMatchers("/medicos/especialidade/titulo/*").hasAnyAuthority(PACIENTE, MEDICO)
@@ -63,7 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.exceptionHandling()
 				.accessDeniedPage("/acesso-negado")
 			.and()
-				.rememberMe();
+				.rememberMe()
+			.and().csrf().disable();
 
 	}
 	

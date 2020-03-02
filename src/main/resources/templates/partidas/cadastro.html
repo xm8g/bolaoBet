@@ -4,11 +4,16 @@
 <head>
 <meta charset="UTF-8" />
 
+	<style>
+		.popover-content{ background: #ffff99; }
+	</style>
 </head>
+
 <body>
 	<section layout:fragment="corpo">
 		<div class="container">
-			<form id="partidas-add" action="#"> 
+			<form id="partidas-add" action="#">
+				<div id="alert"></div> 
 				<div class="row">
 					<div class="col-md-4"></div>
 					<div class="col-md-4">
@@ -27,7 +32,7 @@
 								<div class="form-group">
 									<label for="rodada"><font color="red">*</font>&nbsp;&nbsp;Rodada: </label>
 									<select class="form-control" id="rodada" name="rodada">
-										<option value=""></option>
+										<option value="0"></option>
 									</select>
 								</div>
 							</div>
@@ -56,23 +61,27 @@
    									</div>
    									<div class="card-body">
    										<div class="row">
-   											<div class="col-md-5 casa" id="card-mandante" data-mandante=""><small>Arraste e solte o time da casa aqui</small></div>
+   											<div class="col-md-5 casa" id="card-mandante" data-mandante="" data-toggle="popover" data-placement="top" data-content=""><small>Arraste e solte o time da casa aqui</small></div>
    											<div class="col-md-2 pt-1">X</div>
-   											<div class="col-md-5 fora" id="card-visitante" data-visitante=""><small>Arraste e solte o time visitante aqui</small></div>
+   											<div class="col-md-5 fora" id="card-visitante" data-visitante="" data-toggle="popover" data-placement="top" data-content=""><small>Arraste e solte o time visitante aqui</small></div>
    										</div>
    										<div class="row">
-   											<div class="col-md-12 mt-1 localPartida"><small>Arraste e solte o local da partida aqui</small></div>
+   											<div class="col-md-12 mt-1 localPartida" data-toggle="popover" data-content=""><small>Arraste e solte o local da partida aqui</small></div>
    										</div>
    										<div class="row">
    											<div class="col-md-12 mt-1">
-   												Dia e Horário: <input type="datetime-local" name="data">
+   												Dia e Horário: <input type="datetime-local" name="data" data-toggle="popover" data-content="">
+   											</div>
+   										</div>
+   										<div class="row">
+   											<div id="error-data" class="col-md-12 mt-1">
    											</div>
    										</div>
    									</div>
    									<div class="card-footer">
    										<div class="btn-group">
   											<button type="button" id="btnCleanCard" class="btn btn-sm btn-danger"><i class="fas fa-eraser"></i></button>
-  											<button type="button" id="btnSave" class="btn btn-sm btn-success"><i class="fas fa-plus-circle"></i></button>
+  											<button id="btnSave" type="submit" class="btn btn-sm btn-success"><i class="fas fa-plus-circle"></i></button>
 										</div>	
    									</div>
    								</div>
@@ -89,14 +98,7 @@
 	<script	th:src="@{/js/partidas/partidas.js(v=${version})}" th:fragment="js"></script>
 	<script th:inline="javascript" th:fragment="inlinescript">
 		/*<![CDATA[*/
-		$(document).ready(function () {
 		
-			var sucesso = /*[[${sucesso}]]*/ null;
-		
-			if (sucesso === 'ok') {
-				toastr.success('Sucesso', 'Campeonato Cadastrado OK')
-			}
-		});
 		/*]]>*/
 	</script>
 </body>

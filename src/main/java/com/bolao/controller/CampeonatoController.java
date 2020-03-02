@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bolao.entity.Campeonato;
 import com.bolao.entity.Time;
 import com.bolao.service.CampeonatoService;
+import com.bolao.validator.CampeonatoValidator;
 
 @Controller
 @RequestMapping("/campeonatos")

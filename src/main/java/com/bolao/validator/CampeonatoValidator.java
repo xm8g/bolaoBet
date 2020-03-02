@@ -1,4 +1,4 @@
-package com.bolao.controller;
+package com.bolao.validator;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.validation.Errors;

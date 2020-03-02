@@ -1,18 +1,30 @@
 package com.bolao.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bolao.entity.Campeonato;
 import com.bolao.entity.Partida;
 import com.bolao.service.CampeonatoService;
 import com.bolao.service.PartidaService;
+import com.bolao.validator.LocalPartidaValidator;
 
 @Controller
 @RequestMapping("/partidas")
@@ -23,6 +35,11 @@ public class PartidaController {
 	
 	@Autowired
 	private CampeonatoService campeonatoService;
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		binder.addValidators(new LocalPartidaValidator());
+	}
 	
 	@GetMapping("/nova")
 	public String novaPartida(Partida partida, Model model) {
@@ -43,5 +60,20 @@ public class PartidaController {
 	public List<Campeonato> listaCampeonatos() {
 		
 		return campeonatoService.todos();
+	}
+	
+	@PostMapping("/salvar")
+	public ResponseEntity<?> salvar(@Valid Partida partida, BindingResult result, RedirectAttributes attr) {
+		if (result.hasErrors()) {
+			Map<String, String> errors = new HashMap<>();
+			for(FieldError fieldError : result.getFieldErrors()) {
+				errors.put(fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			return ResponseEntity.unprocessableEntity().body(errors);
+		}
+		
+		partidaService.salvarPartida(partida);
+		
+		return ResponseEntity.ok().build();	
 	}
 }

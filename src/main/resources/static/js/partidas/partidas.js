@@ -36,7 +36,9 @@ $(document).ready(function() {
 		var c = $(this).children("option:selected").val();
 		$("#colRodada").empty().append('Rodada ' + c);
 	});
-	
+	$("input[name='data']").change(function(e) {
+		$("#error-data").empty();
+	});
 	
 	
 	$('.localPartida').droppable({
@@ -49,6 +51,7 @@ $(document).ready(function() {
 			$(this).empty();
 			$(this).append(ui.draggable.html())
 			ui.draggable.detach();
+			$('.localPartida').popover('hide');
 		}
 	});
 	$('.casa').droppable({
@@ -63,7 +66,7 @@ $(document).ready(function() {
 			$(this).attr('data-mandante', props.id)
 			$(this).append(props.content);
 			ui.draggable.detach();
-			
+			$("#card-mandante").popover('hide');
 		}
 	});
 	$('.fora').droppable({
@@ -78,6 +81,7 @@ $(document).ready(function() {
 			$(this).attr('data-visitante', props.id)
 			$(this).append(props.content);
 			ui.draggable.detach();
+			$("#card-visitante").popover('hide');
 		}
 	});
 	
@@ -85,7 +89,51 @@ $(document).ready(function() {
 		rollbackDragDropTimeCasa();
 		rollbackDragDropTimeFora();
 		rollbackDragDropLocalPartida();
+		$("input[name='data']").val('');
 	});
+	
+	$("#partidas-add").submit(function(evt) {
+		//bloquear o comportamento padrão do submit
+		evt.preventDefault();
+		
+		var partida = {};
+		partida.campeonato = $( "select[name='campeonato'] option:selected" ).val();
+		partida.rodada = $( "select[name='rodada'] option:selected").val();
+		partida.mandante = $("#card-mandante").attr('data-mandante') 
+		partida.visitante = $("#card-visitante").attr('data-visitante')
+		partida.local = $('.localPartida').html();
+		partida.data = $("input[name='data']").val();
+		
+		console.log('partida > ', JSON.stringify(partida));
+		
+		$.ajax({
+			type: "POST",
+			url: "/partidas/salvar",
+			data: partida,
+			success: function() {
+				clearForm();
+				//chamar lista
+			},
+			statusCode: {
+				422: function(xhr) {
+					console.log('status error:', xhr.status);
+					var errors = $.parseJSON(xhr.responseText);
+					$.each(errors, function(key, val) {
+						exibeErro(key, val);
+					})
+				}
+			},
+			error: function(xhr) {
+				console.log("> error: ", xhr.responseText);
+				$("#alert").addClass("alert alert-danger").text("Não foi possível salvar esta partida.");
+			},
+			complete: function() {
+				//carregar a lista de jogos salvos
+				console.log('complete');
+			}
+		});
+	});
+		
 });
 
 function rollbackDragDropTimeCasa() {
@@ -100,6 +148,38 @@ function rollbackDragDropTimeCasa() {
 		$("#cardTimes").append(divTime).fadeIn();
 		tornarDivDoTimeArrastavel();
 	}
+}
+
+function exibeErro(field, msg) {
+	console.log(field, msg);
+	if (field == 'mandante') {
+		$("#card-mandante").attr('data-content', msg)
+		$("#card-mandante").popover('show');
+	} else if (field == 'visitante') {
+		$("#card-visitante").attr('data-content', msg)
+		$("#card-visitante").popover('show');
+	} else if (field == 'local') {
+		$(".localPartida").attr('data-content', msg)
+		$(".localPartida").popover('show');
+	} else if (field == 'data') {
+		$("#error-data").append("<span style='color:red'>" + msg + "</span>");
+	} else if (field == 'rodada') {
+		
+	}
+}
+
+
+
+function clearForm() {
+	$('#card-mandante').attr('data-mandante', '');
+	$('#card-mandante').empty();
+	$('#card-mandante').append('<small>Arraste e solte o time da casa aqui</small>')
+	$('#card-visitante').attr('data-visitante', '');
+	$('#card-visitante').empty();
+	$('#card-visitante').append('<small>Arraste e solte o time visitante aqui</small>');
+	$('.localPartida').empty();
+	$('.localPartida').append('<small>Arraste e solte o local da partida aqui</small>');
+	$("#alert").removeClass("alert").empty();
 }
 
 function rollbackDragDropTimeFora() {
@@ -117,13 +197,30 @@ function rollbackDragDropTimeFora() {
 }
 
 function rollbackDragDropLocalPartida() {
-	var htmlDivTime = $('.localPartida').html();
-	/* se não contém <small> pegar o texto e criar a div local dragble */
-	
+	var htmlDivLocalPartida = $('.localPartida').html();
+	$('.localPartida').empty();
+	$('.localPartida').append('<small>Arraste e solte o local da partida aqui</small>')
+	var divLocalPartida = '<div class="local m-1">'+ htmlDivLocalPartida +'</div>';
+	$("#cardLocais").append(divLocalPartida);
+	tornarDivDoLocalArrastavel();
 }
 
 function tornarDivDoTimeArrastavel() {
 	$('.time').draggable({
+		revert: "invalid", //se não soltar no lugar certo, volta pro início
+		containment: "window",
+		cursor: "move",
+		start: function(event, ui){
+			$(this).addClass('dragged');
+		},
+		stop: function(event, ui){
+			$(this).removeClass('dragged');
+		}
+	});
+}
+
+function tornarDivDoLocalArrastavel() {
+	$('.local').draggable({
 		revert: "invalid", //se não soltar no lugar certo, volta pro início
 		containment: "window",
 		cursor: "move",
@@ -176,16 +273,3 @@ function carregaTimes($idCampeonato) {
 		} 
 	})
 }
-
-
-//function salvarPartidaAtual() {
-//	var partida = {};
-//	partida.campeonato = $( "select[name='campeonato'] option:selected" )).val();
-//	partida.rodada = $("input[name='rodada']").val();
-//	partida.mandante = $( "select[name='mandante'] option:selected" )).val();
-//	partida.visitante = $( "select[name='visitante'] option:selected" )).val();
-//	partida.local = $("input[name='local']").val();
-//	partida.dataHora = $("input[name='data']").val();
-//	
-//	console.log('partida > ', partida);
-//}

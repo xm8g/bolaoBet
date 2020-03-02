@@ -1,25 +1,27 @@
 package com.bolao.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@SuppressWarnings("serial")
+@Getter @Setter @NoArgsConstructor
 @Embeddable
-@NoArgsConstructor
-@Getter
-@Setter
 public class ResultadoPartida {
 
-	private int golsHTMandante;
+	@Column(name="gols_ht_mandante")
+	private int golsHTMandante = -1;
 	
-	private int golsHTVisitante;
+	@Column(name="gols_ht_visitante")
+	private int golsHTVisitante = -1;
 	
-	private int golsFTMandante;
+	@Column(name="gols_ft_mandante")
+	private int golsFTMandante = -1;
 	
-	private int golsFTVisitante;
-	
+	@Column(name="gols_ft_visitante")
+	private int golsFTVisitante = -1;
+
 	
 }
