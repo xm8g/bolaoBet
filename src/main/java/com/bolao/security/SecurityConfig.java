@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.bolao.entity.PerfilTipo;
+import com.bolao.entity.user.PerfilTipo;
 import com.bolao.service.UsuarioService;
 
 @EnableGlobalMethodSecurity(prePostEnabled = true)

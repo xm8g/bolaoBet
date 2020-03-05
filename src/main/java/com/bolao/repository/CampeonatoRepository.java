@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.bolao.entity.Campeonato;
+import com.bolao.entity.jogo.Campeonato;
 
 @Repository
 public interface CampeonatoRepository extends JpaRepository<Campeonato, Long> {

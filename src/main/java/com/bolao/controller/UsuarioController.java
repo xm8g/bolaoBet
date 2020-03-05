@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.bolao.entity.Avatar;
-import com.bolao.entity.Usuario;
+import com.bolao.entity.user.Avatar;
+import com.bolao.entity.user.Usuario;
 import com.bolao.service.AvatarService;
 import com.bolao.service.UsuarioService;
 

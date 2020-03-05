@@ -4,7 +4,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.bolao.entity.Campeonato;
+import com.bolao.entity.jogo.Campeonato;
 
 public class CampeonatoValidator implements Validator {
 

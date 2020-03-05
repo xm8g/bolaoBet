@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.bolao.entity.Escudo;
+import com.bolao.entity.jogo.Escudo;
 import com.bolao.exception.FileStorageException;
 
 @Component

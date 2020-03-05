@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.bolao.entity.Time;
 import com.bolao.entity.domain.Paises;
+import com.bolao.entity.jogo.Time;
 import com.bolao.service.TimeService;
 
 @Controller

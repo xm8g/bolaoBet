@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.bolao.entity.Avatar;
-import com.bolao.entity.Usuario;
+import com.bolao.entity.user.Avatar;
+import com.bolao.entity.user.Usuario;
 import com.bolao.exception.FileStorageException;
 import com.bolao.repository.AvatarRepository;
 import com.bolao.repository.UsuarioRepository;

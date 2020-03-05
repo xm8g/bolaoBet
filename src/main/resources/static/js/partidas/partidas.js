@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$( function() {
 	
 	$("select[name='campeonato']").change(function() {
 		var c = $(this).children("option:selected").val();
@@ -26,7 +26,6 @@ $(document).ready(function() {
 						var valor = i+1;
 						$("#rodada").append(new Option(valor, valor));
 					}
-					carregaTimes(c);
 				}
 			} 
 		})
@@ -35,6 +34,9 @@ $(document).ready(function() {
 	$("select[name='rodada']").change(function() {
 		var c = $(this).children("option:selected").val();
 		$("#colRodada").empty().append('Rodada ' + c);
+		var campeonato = $("select[name='campeonato']").children("option:selected").val();
+		carregaTimes(campeonato);
+		listar(c);
 	});
 	$("input[name='data']").change(function(e) {
 		$("#error-data").empty();
@@ -112,7 +114,7 @@ $(document).ready(function() {
 			data: partida,
 			success: function() {
 				clearForm();
-				//chamar lista
+				listar(partida.rodada);
 			},
 			statusCode: {
 				422: function(xhr) {
@@ -126,14 +128,50 @@ $(document).ready(function() {
 			error: function(xhr) {
 				console.log("> error: ", xhr.responseText);
 				$("#alert").addClass("alert alert-danger").text("Não foi possível salvar esta partida.");
-			},
-			complete: function() {
-				//carregar a lista de jogos salvos
-				console.log('complete');
 			}
 		});
 	});
+	
+	$('#btnSaveResult').click(function() {
+		var resultado = {};
+		var golsHTCasa = parseInt($("input[name='golsHTMandante']").val());
+		var golsFTCasa = parseInt($("input[name='golsFTMandante']").val());
+		var golsHTFora = parseInt($("input[name='golsHTVisitante']").val());
+		var golsFTFora = parseInt($("input[name='golsFTVisitante']").val());
+		var id = $('#idPartida').val();
+		var rodada = $( "select[name='rodada'] option:selected").val();
 		
+		if (isNaN(golsHTCasa)) {
+			golsHTCasa = 0;
+		}
+		if (isNaN(golsFTCasa)) {
+			golsFTCasa = 0;
+		}
+		if (isNaN(golsHTFora)) {
+			golsHTFora = 0;
+		}
+		if (isNaN(golsFTFora)) {
+			golsFTFora = 0;
+		}
+		
+		resultado.golsHTMandante = golsHTCasa;
+		resultado.golsHTVisitante = golsHTFora;
+		resultado.golsFTMandante = golsFTCasa;
+		resultado.golsFTVisitante = golsFTFora;
+		
+		$.ajax({
+			method: "POST",
+			url : "/resultados/resultado/"+id,
+			data : resultado,
+			success: function() {
+				$('#dialog-resultado').modal('hide')
+				listar(rodada);
+			}
+	    });
+
+		
+	});
+	
 });
 
 function rollbackDragDropTimeCasa() {
@@ -167,8 +205,6 @@ function exibeErro(field, msg) {
 		
 	}
 }
-
-
 
 function clearForm() {
 	$('#card-mandante').attr('data-mandante', '');
@@ -244,6 +280,8 @@ function transferData($item) {
 }
 
 function carregaTimes($idCampeonato) {
+	$('#cardTimes').empty();
+	$('#cardLocais').empty();
 	$.ajax({
 		method: "GET",
 		url: "/campeonatos/times",
@@ -272,4 +310,110 @@ function carregaTimes($idCampeonato) {
 			});
 		} 
 	})
+}
+
+function listar(rodada) {
+	moment.locale('pt-br');
+	$.ajax({
+		method: "GET",
+		url : "/partidas/tabela/listagem/"+rodada,
+		success: function( partidas ) {
+			var $TABLE = $("#tblPartidasCadastradas");
+			$TABLE.empty();
+			if (partidas.length > 0) {
+				partidas.forEach(function( partida, index ) {
+					var golsCasa = '';
+					var golsFora = '';
+					var idTdEditPartida = 'tdEdit' + partida.id;
+					if (partida.resultado) {
+						golsCasa = parseInt(partida.resultado.golsHTMandante) + parseInt(partida.resultado.golsFTMandante);
+						golsFora = parseInt(partida.resultado.golsHTVisitante) + parseInt(partida.resultado.golsFTVisitante); 
+					}
+					var $row = '<tr><td class="align-middle">' + 
+							partida.mandante.nome + ' <img width="16" height="16" src="data:image/png;base64,'+partida.mandante.escudo.data+'" />  ' + golsCasa + ' X ' + golsFora +  
+							'  <img width="16" height="16" src="data:image/png;base64,'+partida.visitante.escudo.data+'" /> ' + partida.visitante.nome +
+							'</td><td class="align-middle">' + partida.local + '</td><td class="align-middle">' + moment(partida.data).format('lll') + '</td>' +
+							'<td id="' + idTdEditPartida + '"><a class="btn btn-secondary btn-sm btn-block" href="javascript:void(0)"><i class="fas fa-futbol"></i></a></td>' +
+							'<td><a class="btn btn-danger btn-sm btn-block" href="#" onClick="deletePartida(' + partida.id +','+ rodada +');" role="button"><i class="fas fa-times-circle"></i></a></td>' +
+							'</tr>';
+					$TABLE.append($row);
+					retirarArrastaveisDasColunasDeSelecao(partida.mandante.id, partida.visitante.id, partida.local);
+					$('#'+idTdEditPartida).on('click', function(){
+						resultado(partida, rodada);
+					});
+				});
+			} else {
+				$TABLE.append('Não há partidas cadastradas para esta rodada.')
+			}
+		}
+    });
+}
+
+function resultado(partida, rodada) {
+	$('#dialog-resultado').modal('show')
+	$('.escudoM').empty().append(partida.mandante.nome + '   <img width="32" height="32" src="data:image/png;base64,'+partida.mandante.escudo.data+'" />');
+	$('.escudoV').empty().append('<img width="32" height="32" src="data:image/png;base64,'+partida.visitante.escudo.data+'" />   ' + partida.visitante.nome);
+	$('#idPartida').val(partida.id);
+	
+	if (partida.resultado) {
+		$("input[name='golsHTMandante']").val(partida.resultado.golsHTMandante);
+		$("input[name='golsFTMandante']").val(partida.resultado.golsFTMandante);
+		$("input[name='golsHTVisitante']").val(partida.resultado.golsHTVisitante);
+		$("input[name='golsFTVisitante']").val(partida.resultado.golsFTVisitante);
+	} else {
+		$("input[name='golsHTMandante']").val('');
+		$("input[name='golsFTMandante']").val('');
+		$("input[name='golsHTVisitante']").val('');
+		$("input[name='golsFTVisitante']").val('');	
+	}
+	
+}
+
+function deletePartida(id, rodada) {
+	var campeonato = $("select[name='campeonato']").children("option:selected").val();
+	$.ajax({
+		method: "GET",
+		url : "/partidas/delete/"+id,
+		complete: function() {
+			carregaTimes(campeonato);
+			listar(rodada);
+		}
+    });
+}
+
+function retirarArrastaveisDasColunasDeSelecao(mandante, visitante, local) {
+	$(".time").each(function() {
+		if ($(this).attr('data-id') == mandante || $(this).attr('data-id') == visitante) {
+			$(this).remove();
+		}
+	});
+	$(".local").each(function() {
+		if (local == $(this).html()) {
+			$(this).remove();
+		}
+	});
+}
+
+function golsDaPartida() {
+	var golsHTCasa = parseInt($("input[name='golsHTMandante']").val());
+	var golsFTCasa = parseInt($("input[name='golsFTMandante']").val());
+	var golsHTFora = parseInt($("input[name='golsHTVisitante']").val());
+	var golsFTFora = parseInt($("input[name='golsFTVisitante']").val());
+	
+	if (isNaN(golsHTCasa)) {
+		golsHTCasa = 0;
+	}
+	if (isNaN(golsFTCasa)) {
+		golsFTCasa = 0;
+	}
+	if (isNaN(golsHTFora)) {
+		golsHTFora = 0;
+	}
+	if (isNaN(golsFTFora)) {
+		golsFTFora = 0;
+	}
+	var golsCasa = Math.abs(golsHTCasa) + Math.abs(golsFTCasa);
+	var golsFora = Math.abs(golsHTFora) + Math.abs(golsFTFora);
+	
+	$('#placarFinal').empty().append('Resultado Final:  ' + golsCasa + ' x ' + golsFora);
 }

@@ -9,6 +9,7 @@ A Idéia...
 - [x] Permitir que o PERFIL como ADMIN crie os clubes
 - [x] Permitir o cadastro do usuário com login e senha. A senha deve ser encriptada ao ser gravada no banco.
 - [x] No ato de um cadastro de um usuário será criado o perfil USER.
+- [ ] Disponibilizar na Home Page os Campeonatos que podem ser usufruidos para geração de um bolão.
 - [ ] Permitir que um usuário possa selecionar um campeonato e que possa criar um bolão a partir dele, tornando-se e USER e GESTOR.
 - [ ] No papel de GESTOR, o mesmo poderá enviar convites aos emails dos interessados.
 - [ ] Um usuário com perfil USER, poderá participar de um bolão ao qual foi convidado. Ele será notificado do convite ao entrar no sistema.
@@ -40,12 +41,12 @@ A Idéia...
 * O usuário poderá multiplicar esses COINs em aposta em mercados paralelos a cada jogo
 * O usuário pode colocar suas COINs, a qtde que quiser em apenas um mercado por jogo
 * A COIN’s será multiplicada pela ODD em caso de acerto
-* Ao final da rodada o usuário pode trocar os COINS (parte inteira) por pontos obedecidos os pesos da rodada.
+* Ao final da rodada o usuário pode trocar os COINS (parte inteira) multiplicado pelo numero da rodada.
 * Na última rodada todos os COINS serão trocados por pontos, multiplicados pelo número da rodada.
 
 * Tarefas do ADMIN do Site
 
-- [ ] Cadastrar os jogos da rodada definindo todas os detalhes
+- [x] Cadastrar os jogos da rodada definindo todas os detalhes
 - [ ] Habilitar os mercados que poderão ter apostas para aquele jogo
 - [ ] Fazer uso da [ODDS API](https://the-odds-api.com) para definir as odds da categoria para cada jogo, pegar as odds uma hora antes do jogo. Se não cadastrá-las no dia do jogo.
 - [ ] Processará os resultados dos palpites e apostas a qualquer momento

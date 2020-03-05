@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import com.bolao.entity.Time;
+import com.bolao.entity.jogo.Time;
 import com.bolao.service.TimeService;
 
 @Component 

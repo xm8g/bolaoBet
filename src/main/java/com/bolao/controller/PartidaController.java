@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,14 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.bolao.entity.Campeonato;
-import com.bolao.entity.Partida;
+import com.bolao.entity.jogo.Campeonato;
+import com.bolao.entity.jogo.Partida;
+import com.bolao.entity.jogo.ResultadoPartida;
 import com.bolao.service.CampeonatoService;
 import com.bolao.service.PartidaService;
 import com.bolao.validator.LocalPartidaValidator;
@@ -46,9 +49,9 @@ public class PartidaController {
 		return "partidas/cadastro";
 	}
 	
-	@GetMapping("/listagem")
-	public String listagem() {
-		return "partidas/listagem";
+	@GetMapping("/tabela/listagem/{rodada}")
+	public ResponseEntity<?> findPartidasDaRodada(@PathVariable("rodada") Integer rodada) {
+		return ResponseEntity.ok(partidaService.partidasDaRodada(rodada));
 	}
 	
 	@GetMapping("/resultados")
@@ -75,5 +78,13 @@ public class PartidaController {
 		partidaService.salvarPartida(partida);
 		
 		return ResponseEntity.ok().build();	
+	}
+	
+	@GetMapping("/delete/{id}")
+	public ResponseEntity<?> excluiPromocao(@PathVariable("id") Long id) {
+		
+		partidaService.delete(id);
+		
+		return ResponseEntity.ok().build();
 	}
 }

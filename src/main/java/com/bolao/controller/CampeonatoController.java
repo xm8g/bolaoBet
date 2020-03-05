@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.bolao.entity.Campeonato;
-import com.bolao.entity.Time;
+import com.bolao.entity.jogo.Campeonato;
+import com.bolao.entity.jogo.Time;
 import com.bolao.service.CampeonatoService;
 import com.bolao.validator.CampeonatoValidator;
 

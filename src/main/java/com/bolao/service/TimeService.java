@@ -10,9 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bolao.entity.Time;
 import com.bolao.entity.dto.Datatables;
 import com.bolao.entity.dto.DatatablesColunas;
+import com.bolao.entity.jogo.Time;
 import com.bolao.repository.TimeRepository;
 
 @Service

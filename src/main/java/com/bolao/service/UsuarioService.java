@@ -13,9 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bolao.entity.Perfil;
-import com.bolao.entity.PerfilTipo;
-import com.bolao.entity.Usuario;
+import com.bolao.entity.user.Perfil;
+import com.bolao.entity.user.PerfilTipo;
+import com.bolao.entity.user.Usuario;
 import com.bolao.repository.UsuarioRepository;
 
 @Service

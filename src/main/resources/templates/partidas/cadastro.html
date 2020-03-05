@@ -85,6 +85,9 @@
 										</div>	
    									</div>
    								</div>
+   								<br />
+   								<table id="tblPartidasCadastradas" class="table table-sm table-striped table-bordered" style="font-size: 11px;">
+   								</table>
 	    					</div>
 	    					<div class="col-md-3 text-center">
 	    						<div class="card" id="cardLocais"></div>
@@ -93,6 +96,68 @@
 	  				</div>
 				</div>
 			</form>
+		</div>
+		<div class="modal fade" id="dialog-resultado" tabindex="-1" role="dialog" aria-labelledby="titleModal" aria-hidden="true">
+  			<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    			<div class="modal-content">
+      				<div class="modal-header">
+        				<h5 class="modal-title" id="titleModal">Gols da Partida</h5>
+        				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          					<span aria-hidden="true">&times;</span>
+        				</button>
+      				</div>
+      				<div class="modal-body">
+        				<div class="row">
+        					<div class="col-md-3 align-self-center text-right escudoM">
+        					</div>
+        					<div class="col-md-6">
+        						<div class="row">
+        							<div class="col-md-12 text-center pb-1">
+        								Gols do 1° Tempo
+        							</div>
+        						</div>
+        						<div class="row form-group">
+        							<div class="col-md-3 offset-md-2 align-self-center">
+        								<input type="number" min="0" name="golsHTMandante" class="form-control" onchange="golsDaPartida()" oninput="validity.valid||(value='');" />
+        							</div>
+        							<div class="col-md-1 align-self-center">
+        								X
+        							</div>
+        							<div class="col-md-3">
+        								<input type="number" min="0" name="golsHTVisitante" class="form-control" onchange="golsDaPartida()" oninput="validity.valid||(value='');" />
+        							</div>
+        						</div>
+        						<div class="row">
+        							<div class="col-md-12 align-self-center text-center">
+        								Gols do 2° Tempo
+        							</div>
+        						</div>
+        						<div class="row form-group">
+        							<div class="col-md-3 offset-md-2">
+        								<input type="number" min="0" name="golsFTMandante" class="form-control" onchange="golsDaPartida()" oninput="validity.valid||(value='');" />
+        							</div>
+        							<div class="col-md-1 align-self-center">
+        								X
+        							</div>
+        							<div class="col-md-3">
+        								<input type="number" min="0" name="golsFTVisitante" class="form-control" onchange="golsDaPartida()" oninput="validity.valid||(value='');" />
+        							</div>
+        						</div>
+        					</div>
+        					<div class="col-md-3 align-self-center text-left escudoV">
+        					</div>
+        				</div>
+        				<div class="row">
+        					<div class="col-md-3 offset-md-3" id="placarFinal"></div>
+        				</div>	
+						<input type="hidden" id="idPartida" name="idPartida" />
+      				</div>
+      				<div class="modal-footer">
+        				<button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+        				<button type="button" class="btn btn-primary" id="btnSaveResult">Salvar</button>
+      				</div>
+    			</div>
+  			</div>
 		</div>
 	</section>
 	<script	th:src="@{/js/partidas/partidas.js(v=${version})}" th:fragment="js"></script>

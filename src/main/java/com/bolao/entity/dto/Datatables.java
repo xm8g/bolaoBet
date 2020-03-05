@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -63,14 +64,18 @@ public class Datatables {
 	}
 
 	public String getColumnName() {
-		int iCol = Integer.parseInt(this.request.getParameter("order[0][column]"));
-		return this.colunas[iCol];
+		String parameter = this.request.getParameter("order[0][column]");
+		if (parameter != null) {
+			int iCol = Integer.parseInt(this.request.getParameter("order[0][column]"));
+			return this.colunas[iCol];
+		}
+		return StringUtils.EMPTY;
 	}	
 
 	public Sort.Direction getDirection() {
 		String order = this.request.getParameter("order[0][dir]");
 		Sort.Direction sort = Sort.Direction.ASC;
-		if (order.equalsIgnoreCase("desc")) {
+		if (order != null && order.equalsIgnoreCase("desc")) {
 			sort = Sort.Direction.DESC;
 		}
 		return sort;

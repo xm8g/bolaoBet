@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.bolao.entity.Partida;
+import com.bolao.entity.jogo.Partida;
 
 public class LocalPartidaValidator implements Validator {
 
