@@ -1,8 +1,10 @@
-package com.bolao.entity;
+package com.bolao.entity.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import com.bolao.entity.AbstractEntity;
 
 import lombok.Getter;
 import lombok.Setter;

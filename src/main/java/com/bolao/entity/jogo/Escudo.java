@@ -1,8 +1,7 @@
-package com.bolao.entity;
+package com.bolao.entity.jogo;
 
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 import javax.persistence.Lob;
-import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,12 +9,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @SuppressWarnings("serial")
-@Entity
-@Table(name="avatar")
+@Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter @Setter
-public class Avatar extends AbstractEntity {
+public class Escudo {
 
 	private String fileName;
 
@@ -23,5 +21,4 @@ public class Avatar extends AbstractEntity {
 
     @Lob
     private byte[] data;
-	
 }

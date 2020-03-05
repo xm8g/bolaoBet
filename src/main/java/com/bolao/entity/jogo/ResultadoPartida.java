@@ -1,4 +1,4 @@
-package com.bolao.entity;
+package com.bolao.entity.jogo;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

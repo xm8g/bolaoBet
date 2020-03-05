@@ -1,4 +1,4 @@
-package com.bolao.entity;
+package com.bolao.entity.jogo;
 
 import java.util.List;
 
@@ -14,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 
+import com.bolao.entity.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;

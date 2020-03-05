@@ -1,4 +1,4 @@
-package com.bolao.entity;
+package com.bolao.entity.user;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.bolao.entity.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;

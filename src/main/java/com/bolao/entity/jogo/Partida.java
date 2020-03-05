@@ -1,4 +1,4 @@
-package com.bolao.entity;
+package com.bolao.entity.jogo;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +15,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.bolao.entity.AbstractEntity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

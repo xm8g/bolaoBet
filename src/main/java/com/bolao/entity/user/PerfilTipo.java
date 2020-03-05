@@ -1,4 +1,4 @@
-package com.bolao.entity;
+package com.bolao.entity.user;
 
 public enum PerfilTipo {
 
