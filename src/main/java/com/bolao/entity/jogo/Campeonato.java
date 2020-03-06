@@ -11,9 +11,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 
 import com.bolao.entity.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -58,4 +62,14 @@ public class Campeonato extends AbstractEntity {
 	@JsonIgnore
 	@OneToMany(mappedBy = "campeonato", fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Partida> partidas;
+	
+	@Transient
+	private String logo;
+	
+	public String getLogo() {
+		if (escudo != null) {
+			return Base64.encodeBase64String(escudo.getData()); 
+		}
+		return StringUtils.EMPTY;
+	}
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
-	layout:decorate="~{layout}">
+<html xmlns:layout="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
 <head>
 <meta charset="UTF-8" />
 </head>
@@ -9,19 +9,42 @@
 	<section layout:fragment="corpo">
 		<main role="main">
 		<div class="container">
-		<br /><br /><br />
-		<div class="alert alert-success">Colocar algo aqui</div>
-		<button type="button" class="btn btn-danger">Sempre</button>
+			<div class="jumbotron">
+				<h1 class="display-5">Campeonatos Disponíveis.</h1>
+				<p class="lead">Escolha e crie seu bolão.</p>
+				<hr class="my-4">
+			</div>
+			<div class="album bg-light">
+				<div class="row">
+					<div class="card-group col-md-3 pb-4 bg-light mb-3 text-center" th:each="c : ${campeonatos}">
+						<div class="card">
+							 <div class="block-img">
+								<img class="card-img-top" width="250" height="250" th:src="@{'data:image/png;base64,' + ${c.logo}}" />
+							</div>
+							<div class="card-body">
+								<h5 class="card-title">
+									<th:block th:text="${c.nome}" />
+								</h5>
+								<p class="card-text">Rodadas: <th:block th:text="${c.rodadas}" /></p>
+								<p class="card-text">Equipes: <th:block th:text="${c.qtdeTimes}" /></p>
+							</div>
+							<div class="card-footer">
+								<a th:href="@{/bolao/criar/{id}(id=${c.id})}" class="btn btn-secondary"><i class="fas fa-plus-circle"></i>&nbsp;&nbsp;Criar</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		</main>
 	</section>
 	<script th:src="~{}" th:fragment="js"></script>
 	<script th:inline="javascript" th:fragment="inlinescript">
 		/*<![CDATA[*/
-		$(document).ready(function () {
-		
-			var senhaAlterada = /*[[${senhaAlterada}]]*/ null;
-		
+		$(document).ready(function() {
+
+			var senhaAlterada = /*[[${senhaAlterada}]]*/null;
+
 			console.log(senhaAlterada);
 			if (senhaAlterada === 'ok') {
 				toastr.success('Sucesso', 'Senha Alterada OK')

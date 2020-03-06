@@ -34,6 +34,9 @@
 	<!-- form-signin (estilo contido no arquivo style-login.css) -->
 	<!-- was-validated (classe do bootstrap aplicada ao form) -->
 	<!-- /login (URI controlada pelo Spring Security na classe Security Config) -->
+	<div class="row">
+	<div class="col-md-3" style="background-color: #00004f;"></div>
+	<div class="col-md-6">
 	<form class="form-signin was-validated" method="post" th:action="@{/login}">
 		<div class="text-center mb-4">
 			<img class="mb-4" th:src="@{/image/enterArena.jpg}" alt="" width="250" height="125">
@@ -77,5 +80,9 @@
 		</nav>
 		<p class="mt-5 mb-3 text-muted text-center">Bolão BET 2019</p>
 	</form>
+	</div>
+	<div class="col-md-3" style="background-color: #00004f;"></div>
+	</div>
+	
 </body>
 </html>
