@@ -5,12 +5,17 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.bolao.entity.jogo.Campeonato;
+import com.bolao.entity.Bolao;
+import com.bolao.entity.user.Usuario;
+import com.bolao.service.BolaoService;
 import com.bolao.service.CampeonatoService;
+import com.bolao.service.UsuarioService;
 
 @Controller
 public class HomeController {
@@ -18,10 +23,21 @@ public class HomeController {
 	@Autowired
 	private CampeonatoService campeonatoService;
 	
+	@Autowired
+	private BolaoService bolaoService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
+	
 	@GetMapping({ "/", "/home" })
-	public String home(ModelMap model) {
+	public String home(ModelMap model, @AuthenticationPrincipal User user) {
 		
 		model.addAttribute("campeonatos", campeonatoService.todos());
+		if (user != null) {
+			Usuario usuarioLogado = usuarioService.buscarPorEmail(user.getUsername());
+			List<Bolao> boloesDoUsuario = bolaoService.boloesDoUsuario(usuarioLogado.getId());
+			model.addAttribute("boloes", boloesDoUsuario);
+		}
 		
 		return "home";
 	}

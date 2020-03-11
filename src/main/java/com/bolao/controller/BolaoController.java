@@ -1,8 +1,13 @@
 package com.bolao.controller;
 
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -16,9 +21,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bolao.entity.Bolao;
 import com.bolao.entity.jogo.Campeonato;
+import com.bolao.entity.user.Participante;
 import com.bolao.entity.user.Usuario;
 import com.bolao.service.BolaoService;
 import com.bolao.service.CampeonatoService;
+import com.bolao.service.ParticipanteService;
 import com.bolao.service.UsuarioService;
 
 @Controller
@@ -30,6 +37,9 @@ public class BolaoController {
 	
 	@Autowired
 	private BolaoService bolaoService;
+	
+	@Autowired
+	private ParticipanteService participanteService;
 	
 	@Autowired
 	private UsuarioService usuarioService;
@@ -46,14 +56,85 @@ public class BolaoController {
 	}
 	
 	@PostMapping("/salvar")
-	public String salvar(@Valid Bolao bolao, BindingResult result, @AuthenticationPrincipal User user, ModelMap model) {
+	public String salvar(@Valid Bolao bolao, BindingResult result, @AuthenticationPrincipal User user, RedirectAttributes attr) {
 		if (result.hasErrors()) {
 			return "bolao/meu-bolao";
 		}
 		Usuario criadorDoBolao = usuarioService.buscarPorEmail(user.getUsername());
 		bolao.setGestor(criadorDoBolao);
 		bolaoService.salvarBolao(bolao);
-		return "bolao/dashboard";	
+		
+		List<Bolao> boloesDoUsuario = bolaoService.boloesDoUsuario(criadorDoBolao.getId());
+		attr.addFlashAttribute("boloesDoUsuario", boloesDoUsuario);
+		
+		return "redirect:/bolao/meu-painel";	
+	}
+	
+	@GetMapping("/painel")
+	public String painelMeusBoloes(ModelMap model, @AuthenticationPrincipal User user) {
+		
+		Usuario criadorDoBolao = usuarioService.buscarPorEmail(user.getUsername());
+		
+		List<Bolao> boloesDoUsuario = bolaoService.boloesDoUsuario(criadorDoBolao.getId());
+		model.addAttribute("boloesDoUsuario", boloesDoUsuario);
+		
+		return "bolao/meu-painel";
+	}
+	
+	@GetMapping("/convites")
+	public String painelMeusConvites(ModelMap model, @AuthenticationPrincipal User user) {
+		
+		Usuario usuario = usuarioService.buscarPorEmail(user.getUsername());
+		List<Bolao> boloesConvidados = bolaoService.boloesConvidados(usuario.getEmail());
+		
+		model.addAttribute("boloesConvidados", boloesConvidados);
+		
+		return "bolao/meus-convites";
+	}
+	
+	@GetMapping("/listagem")
+	public String listagem() {
+		return "bolao/listagem";
+	}
+	
+	@GetMapping("/tabela/listagem")
+	public ResponseEntity<?> findBoloes(HttpServletRequest req) {
+		return ResponseEntity.ok(bolaoService.todos(req));
+	}
+	
+	@GetMapping("/excluir/{id}")
+	public String excluirTime(@PathVariable("id") Long id,  RedirectAttributes attr) {
+		bolaoService.remover(id);
+		
+		return "redirect:/bolao/listagem";
+	}
+	
+	@GetMapping("/dashboard/{id}")
+	public String montarDashBoard(@PathVariable("id") Long id, @AuthenticationPrincipal User user, RedirectAttributes attr) {
+		
+		Usuario usuario = usuarioService.buscarPorEmail(user.getUsername());
+		List<Participante> participantesDoBolao = participanteService.participantesDoBolao(id);
+		Participante p;
+		p = encontrarParticipantesDoBolao(participantesDoBolao, usuario.getId());
+		if (p == null) {
+			p = new Participante();
+			p.setUsuario(usuario);
+			Bolao bolao = bolaoService.buscarPorId(id);
+			bolao.addParticipante(p);
+			bolaoService.salvarBolao(bolao);
+		}
+		attr.addFlashAttribute("participante", p);
+		
+		return "bolao/home";
+	}
+
+	private Participante encontrarParticipantesDoBolao(List<Participante> participantesDoBolao, Long userId) {
+		for(Participante p: participantesDoBolao) {
+			if (userId.equals(p.getUsuario().getId())) {
+				return p;
+			}
+		}
+		return null;
 	}
 	
 }

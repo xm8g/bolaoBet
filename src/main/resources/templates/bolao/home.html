@@ -8,19 +8,15 @@
 <body>
 	<section layout:fragment="corpo">
 		<div class="container">
-			DashBoard		
+			DashBoard
 		</div>
 	</section>
-	<script	th:src="@{/js/bolao/cadastro.js(v=${version})}" th:fragment="js"></script>
+	<script	th:src="@{/js/bolao/dashboard.js(v=${version})}" th:fragment="js"></script>
 	<script th:inline="javascript" th:fragment="inlinescript">
 		/*<![CDATA[*/
 		$(document).ready(function () {
+		
 			
-			var sucesso = /*[[${sucesso}]]*/ null;
-			
-			if (sucesso === 'ok') {
-				toastr.success('Sucesso', 'Seu Bolão foi cadastrado e os Convites Enviados')
-			}
 		});
 		/*]]>*/
 	</script>

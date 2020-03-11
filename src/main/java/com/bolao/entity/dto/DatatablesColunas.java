@@ -7,4 +7,6 @@ public class DatatablesColunas {
 	public static final String[] CAMPEONATOS = {"id", "nome", "rodadas", "qtdeTimes", "escudo.data", "times"};
 	
 	public static final String[] PARTIDAS = {"id", "mandante", "visitante", "local", "data"};
+	
+	public static final String[] BOLOES = {"id", "nome"};
 }

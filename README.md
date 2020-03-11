@@ -9,9 +9,9 @@ A Idéia...
 - [x] Permitir que o PERFIL como ADMIN crie os clubes
 - [x] Permitir o cadastro do usuário com login e senha. A senha deve ser encriptada ao ser gravada no banco.
 - [x] No ato de um cadastro de um usuário será criado o perfil USER.
-- [ ] Disponibilizar na Home Page os Campeonatos que podem ser usufruidos para geração de um bolão.
-- [ ] Permitir que um usuário possa selecionar um campeonato e que possa criar um bolão a partir dele, tornando-se e USER e GESTOR.
-- [ ] No papel de GESTOR, o mesmo poderá enviar convites aos emails dos interessados.
+- [x] Disponibilizar na Home Page os Campeonatos que podem ser usufruidos para geração de um bolão.
+- [x] Permitir que um usuário possa selecionar um campeonato e que possa criar um bolão a partir dele, tornando-se e USER e GESTOR.
+- [x] No papel de GESTOR, o mesmo poderá enviar convites aos emails dos interessados.
 - [ ] Um usuário com perfil USER, poderá participar de um bolão ao qual foi convidado. Ele será notificado do convite ao entrar no sistema.
 - [ ] Ao aceitar o convite o usuário passa a ter dois perfis, USER e GUEST
 - [ ] Permitir ao GESTOR retirar o participante caso precise.

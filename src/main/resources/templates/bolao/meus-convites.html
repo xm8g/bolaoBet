@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8" />
+
+</head>
+<body>
+	<section layout:fragment="corpo">
+		<div class="container">
+			<div class="jumbotron" th:if="${not #lists.isEmpty(boloesConvidados)}">
+				<h1 class="display-5">Meus Convites.</h1>
+				<p class="lead">Entre e participe.</p>
+				<hr class="my-4">
+			</div>
+			<div class="jumbotron" th:if="${#lists.isEmpty(boloesConvidados)}">
+				<h1 class="display-5">Você não tem convites ainda.</h1>
+				<hr class="my-4">
+			</div>
+			<div class="album bg-light">
+				<div class="row">
+					<div class="card-group col-md-3 pb-4 bg-light mb-3 text-center" th:each="b : ${boloesConvidados}">
+						<div class="card">
+	  						<div class="card-header">
+    							<th:block th:text="${b.nome}" />
+  							</div>
+							<div class="card-body">
+								<p class="card-text">
+									Convidados: <th:block th:text="${#lists.size(b.convidados)}" />
+								</p>
+								<p class="card-text">
+									Participantes Ativos: <th:block th:text="${#lists.size(b.participantes)}" />
+								</p>
+								<p class="card-text" th:if="${#lists.size(b.participantes) > 0}">
+									Colocar aqui o líder e seu avatar
+								</p>
+							</div>
+							<div class="card-footer">
+								<a th:href="@{/bolao/dashboard/{id}(id=${b.id})}" class="btn btn-success">Entrar</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script th:src="@{/js/bolao/painel-meusconvites.js(v=${version})}" th:fragment="js"></script>
+	<script th:inline="javascript" th:fragment="inlinescript">
+		/*<![CDATA[*/
+		$(document).ready(function () {
+		
+			
+		});
+		/*]]>*/
+	</script>
+</body>
+</html>

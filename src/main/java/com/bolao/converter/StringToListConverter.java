@@ -1,6 +1,5 @@
 package com.bolao.converter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,9 +15,13 @@ public class StringToListConverter implements Converter<String, List<String>> {
 	public List<String> convert(String source) {
 		
 		if (StringUtils.isNotEmpty(source)) {
-			return Stream.of(source.split(",", -1)).collect(Collectors.toList());
+			return Stream.of(source.split(",", -1))
+					.map(String::trim)
+					.collect(Collectors.toList());
 		}
-		return new ArrayList<String>();
+		return null;
 	}
 
 }
+
+
