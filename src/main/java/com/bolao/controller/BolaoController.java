@@ -1,7 +1,6 @@
 package com.bolao.controller;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -67,7 +66,7 @@ public class BolaoController {
 		List<Bolao> boloesDoUsuario = bolaoService.boloesDoUsuario(criadorDoBolao.getId());
 		attr.addFlashAttribute("boloesDoUsuario", boloesDoUsuario);
 		
-		return "redirect:/bolao/meu-painel";	
+		return "redirect:/bolao/painel";	
 	}
 	
 	@GetMapping("/painel")
@@ -109,23 +108,24 @@ public class BolaoController {
 		return "redirect:/bolao/listagem";
 	}
 	
-	@GetMapping("/dashboard/{id}")
-	public String montarDashBoard(@PathVariable("id") Long id, @AuthenticationPrincipal User user, RedirectAttributes attr) {
+	@GetMapping("/join/{id}")
+	public String entrarNoBolao(@PathVariable("id") Long id, @AuthenticationPrincipal User user, HttpServletRequest req) {
 		
 		Usuario usuario = usuarioService.buscarPorEmail(user.getUsername());
 		List<Participante> participantesDoBolao = participanteService.participantesDoBolao(id);
 		Participante p;
 		p = encontrarParticipantesDoBolao(participantesDoBolao, usuario.getId());
+		Bolao bolao = bolaoService.buscarPorId(id);
 		if (p == null) {
 			p = new Participante();
 			p.setUsuario(usuario);
-			Bolao bolao = bolaoService.buscarPorId(id);
 			bolao.addParticipante(p);
 			bolaoService.salvarBolao(bolao);
 		}
-		attr.addFlashAttribute("participante", p);
+		req.getSession().setAttribute("bolao", bolao);
+		req.getSession().setAttribute("participante", p.getId());
 		
-		return "bolao/home";
+		return "redirect:/classificacao/home";
 	}
 
 	private Participante encontrarParticipantesDoBolao(List<Participante> participantesDoBolao, Long userId) {

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bolao.entity.jogo.Campeonato;
 import com.bolao.entity.jogo.Partida;
-import com.bolao.entity.jogo.ResultadoPartida;
 import com.bolao.service.CampeonatoService;
 import com.bolao.service.PartidaService;
 import com.bolao.validator.LocalPartidaValidator;
@@ -51,6 +49,7 @@ public class PartidaController {
 	
 	@GetMapping("/tabela/listagem/{rodada}")
 	public ResponseEntity<?> findPartidasDaRodada(@PathVariable("rodada") Integer rodada) {
+
 		return ResponseEntity.ok(partidaService.partidasDaRodada(rodada));
 	}
 	

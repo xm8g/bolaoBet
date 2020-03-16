@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.w3.org/1999/xhtml" layout:decorate="~{bolao/home}">
+<head>
+<meta charset="UTF-8" />
+
+</head>
+<body>
+	<section layout:fragment="opcao">
+		<div class="container" id="divPalpites">
+			<br />
+			<div class="row">
+				<div class="col-md-3"></div>
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-header">
+							<b>Palpites da Rodada</b>
+						</div>
+						<div class="card-body" style="font-size: 13px;">
+							<div class="form-group">
+								<label for="rodada"><font color="red">*</font>&nbsp;&nbsp;Rodada: </label>
+								<select class="form-control" id="rodada" name="rodada">
+									<option value="0"></option>
+									<option th:each="i : ${#numbers.sequence(1, rodadas)}" th:text="${i}" th:value="${i}"></option>
+								</select>
+								<br />
+								<table id="tblPalpites" class="table table-condensed">
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3"></div>
+			</div>
+		</div>
+		<div class="modal fade" id="dialog-palpite" tabindex="-1" role="dialog" aria-labelledby="titleModal" aria-hidden="true">
+  			<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    			<div class="modal-content">
+      				<div class="modal-header">
+        				<h5 class="modal-title" id="titleModal">Gols da Partida</h5>
+        				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          					<span aria-hidden="true">&times;</span>
+        				</button>
+      				</div>
+      				<div class="modal-body">
+        				<div class="row">
+        					<div class="col-md-3 align-self-center text-right escudoM">
+        					</div>
+        					<div class="col-md-6">
+        						<div class="row">
+        							<div class="col-md-12 text-center pb-1">
+        								Informe o Placar
+        							</div>
+        						</div>
+        						<div class="row form-group">
+        							<div class="col-md-3 offset-md-2 align-self-center">
+        								<input type="number" min="0" name="golsMandante" class="form-control" oninput="validity.valid||(value='');" />
+        							</div>
+        							<div class="col-md-1 align-self-center">
+        								X
+        							</div>
+        							<div class="col-md-3">
+        								<input type="number" min="0" name="golsVisitante" class="form-control" oninput="validity.valid||(value='');" />
+        							</div>
+        						</div>
+        					</div>
+        					<div class="col-md-3 align-self-center text-left escudoV">
+        					</div>
+        				</div>
+        				<div class="row">
+        					<div class="col-md-12 text-center localData">
+        						
+        					</div>
+        				</div>
+        				<div class="row">
+        					<div class="col-md-12 text-center feedback">
+        						
+        					</div>
+        				</div>
+						<input type="hidden" id="idPartida" name="idPartida" />
+						<input type="hidden" id="id" name="id" />
+						<input type="hidden" id="participante" name="participante" th:value="${participante.id}" />
+      				</div>
+      				<div class="modal-footer">
+        				<button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+        				<button type="button" class="btn btn-primary" id="btnSaveResult">Salvar</button>
+      				</div>
+    			</div>
+  			</div>
+		</div>
+		<script th:src="@{/js/bolao/palpites.js}" th:fragment="jsOpcoesBolao"></script>
+	</section>
+</body>
+</html>

@@ -1,13 +1,16 @@
 package com.bolao.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -43,11 +46,11 @@ public class Bolao extends AbstractEntity {
 	@JoinColumn(name="usuario_id", referencedColumnName="id")
 	private Usuario gestor;
 	
-	@ManyToMany(cascade = {CascadeType.REMOVE})
+	@ManyToMany(cascade = {CascadeType.ALL}, fetch=FetchType.EAGER)
 	@JoinTable(name = "boloes_e_participantes", joinColumns = {
 			@JoinColumn(name = "bolao_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "participante_id", referencedColumnName = "id") })
-	private List<Participante> participantes;
+	private Set<Participante> participantes;
 	
 	@ElementCollection
     @CollectionTable(name = "bolao_convites", joinColumns = @JoinColumn(name = "bolao_id", referencedColumnName = "id"))
@@ -59,7 +62,7 @@ public class Bolao extends AbstractEntity {
 	
 	public void addParticipante(Participante p) {
 		if (CollectionUtils.isEmpty(participantes)) {
-			participantes = new ArrayList<Participante>();
+			participantes = new HashSet<Participante>();
 		}
 		participantes.add(p);
 	}

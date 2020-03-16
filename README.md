@@ -27,21 +27,23 @@ A Idéia...
 
 * O sistema terá apostas que poderão se converter em mais pontos para o competidor
 * O sistema adotará os seguintes mercados:
-    1. Over/Under gols
-    2. Intervalo/Final
+    1. Over/Under gols FT
+    2. Over/Under gols HT
     3. BTS (Ambas Marcam)
     4. Escanteios
 
 * O sistema de apostas se baseia em COINS que o usuário obtiver.
 * Para se obter 1(um) COIN o usuário precisará:
     1. Acertar placar exato de um jogo
-    2. A cada 200 pontos ganhos
-    3. Sendo líder da rodada
+    2. A cada 200 pontos ganhos apenas com os palpites
+    3. Dependendo da colocação na rodada rodada.
+	Exemplo: Se o bolão tem 10 participantes, o líder da rodada ganhará 10 coins, o segundo 9 coins e assim até o último ganhar 1 coin
     
 * O usuário poderá multiplicar esses COINs em aposta em mercados paralelos a cada jogo
 * O usuário pode colocar suas COINs, a qtde que quiser em apenas um mercado por jogo
 * A COIN’s será multiplicada pela ODD em caso de acerto
-* Ao final da rodada o usuário pode trocar os COINS (parte inteira) multiplicado pelo numero da rodada.
+* Ao final da rodada o usuário pode trocar os COINS multiplicado pelo numero da rodada, a parte decimal será desprezada.
+* Pontos trocados não valem para obtenção de novos COINS
 * Na última rodada todos os COINS serão trocados por pontos, multiplicados pelo número da rodada.
 
 * Tarefas do ADMIN do Site

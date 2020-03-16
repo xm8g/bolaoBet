@@ -320,7 +320,10 @@ function listar(rodada) {
 		success: function( partidas ) {
 			var $TABLE = $("#tblPartidasCadastradas");
 			$TABLE.empty();
+			var header = '<thead><tr><th>Confronto</th><th>Local</th><th>Data</th><th>Gols</th><th>Apagar</th></tr></thead>';
+			$TABLE.append(header);
 			if (partidas.length > 0) {
+				$TABLE.append('<tbody>');
 				partidas.forEach(function( partida, index ) {
 					var golsCasa = '';
 					var golsFora = '';
@@ -342,6 +345,8 @@ function listar(rodada) {
 						resultado(partida, rodada);
 					});
 				});
+				$TABLE.append('</tbody>');
+				$TABLE.attr('style', 'display:block');
 			} else {
 				$TABLE.append('Não há partidas cadastradas para esta rodada.')
 			}

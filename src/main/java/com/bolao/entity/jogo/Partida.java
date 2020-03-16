@@ -1,14 +1,18 @@
 package com.bolao.entity.jogo;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -17,6 +21,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.bolao.entity.AbstractEntity;
+import com.bolao.entity.bets.Palpite;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,6 +64,11 @@ public class Partida extends AbstractEntity {
 	@JoinColumn(name="id_campeonato")
 	private Campeonato campeonato;
 	
+	@JsonIgnore
+	@OneToMany(mappedBy="partida", cascade=CascadeType.REMOVE)
+	private List<Palpite> palpites;
+	
 	@Embedded
 	private ResultadoPartida resultado;
+	
 }

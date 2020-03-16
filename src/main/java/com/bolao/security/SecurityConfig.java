@@ -36,12 +36,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 							"/usuario/cadastrar/avatar", 
 							"/usuario/image",
 							"/usuario/avatar/salvar", 
-							"/usuario/confirmar/senha")
-				.permitAll()
+							"/usuario/confirmar/senha").permitAll()
 				// acessos privados ADMIN
 				.antMatchers("/times/**", 
-							"/campeonatos/**", 
-							"/partidas/**").hasAuthority(ADMIN)
+							"/campeonatos/**").hasAuthority(ADMIN) 
+				.antMatchers("/partidas/nova", 
+							"/partidas/resultados", 
+							"/partidas/salvar", 
+							"/partidas/delete/*").hasAuthority(ADMIN)
 				.antMatchers("/bolao/tabela/listagem", 
 							"bolao/excluir/**").hasAuthority(ADMIN)
 				// acessos privados USUARIO
@@ -51,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 							"/bolao/dashboard", 
 							"/bolao/convites")
 				.hasAnyAuthority(ADMIN, USUARIO)
-				// .antMatchers("/medicos/especialidade/titulo/*").hasAnyAuthority(PACIENTE,
+				.antMatchers("/partidas/tabela/listagem/*").hasAnyAuthority(ADMIN, USUARIO)
 				// MEDICO)
 				// .antMatchers("/medicos/**").hasAuthority(MEDICO).antMatchers("/especialidades/titulo")
 				// .hasAnyAuthority(MEDICO, ADMIN,

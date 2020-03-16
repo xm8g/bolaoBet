@@ -12,4 +12,5 @@ public interface ParticipanteRepositoy extends JpaRepository<Participante, Long>
 
 	@Query("select b.participantes from Bolao b where b.id = :id")
 	Optional<List<Participante>> findParticipanteByBolao(Long id);
+	
 }

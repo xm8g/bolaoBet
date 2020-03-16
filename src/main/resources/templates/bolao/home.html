@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
-	layout:decorate="~{layout}">
+<html xmlns:layout="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
 <head>
 <meta charset="UTF-8" />
 
@@ -8,14 +8,22 @@
 <body>
 	<section layout:fragment="corpo">
 		<div class="container">
-			DashBoard
+			<ul class="nav nav-tabs tab-home">
+				<li class="nav-item"><a class="nav-link" id="linkClassificacao" th:href="@{/classificacao/home}"><img th:src="@{/image/icons/racing.png}" />&nbsp;&nbsp;Classificação</a></li>
+				<li class="nav-item"><a class="nav-link" id="linkPalpites" th:href="@{/palpites/home}"><img th:src="@{/image/icons/vs.png}" />&nbsp;&nbsp;Palpites</a></li>
+				<li class="nav-item"><a class="nav-link" id="linkApostas" th:href="@{/apostas/home}"><img th:src="@{/image/icons/token.png}" />&nbsp;&nbsp;Apostas</a></li>
+				<li class="nav-item"><a class="nav-link" id="linkOdds" th:href="@{/mercado/home}"><img th:src="@{/image/icons/money.png}" />&nbsp;&nbsp;Mercado(ODDS)</a></li>
+			</ul>
+			<div layout:fragment="opcao">
+      			...
+    		</div>
 		</div>
 	</section>
-	<script	th:src="@{/js/bolao/dashboard.js(v=${version})}" th:fragment="js"></script>
+	<script th:replace=":: jsOpcoesBolao"></script>
+	<script th:src="@{/js/bolao/dashboard.js(v=${version})}" th:fragment="js"></script>
 	<script th:inline="javascript" th:fragment="inlinescript">
 		/*<![CDATA[*/
-		$(document).ready(function () {
-		
+		$(document).ready(function() {
 			
 		});
 		/*]]>*/

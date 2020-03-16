@@ -21,5 +21,6 @@ public class ParticipanteService {
 	public List<Participante> participantesDoBolao(Long idBolao) {
 		Optional<List<Participante>> participantes = participanteRepositoy.findParticipanteByBolao(idBolao);
 		return participantes.orElse(new ArrayList<>());
-	} 
+	}
+	
 }
