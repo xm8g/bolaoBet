@@ -1,6 +1,6 @@
 package com.bolao.controller;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -73,12 +73,12 @@ public class CampeonatoController {
 		return "campeonatos/cadastro";
 	}
 	
-	@GetMapping("/numeroDeTimes")
+	@GetMapping("/numeroDeRodadas")
 	public ResponseEntity<?> getQtdeTimes(@RequestParam("idCampeonato") String idCampeonato ) {
 		
 		Campeonato campeonato = campeonatoService.buscarCampeonato(Long.valueOf(idCampeonato));
 		if (CollectionUtils.isNotEmpty(campeonato.getTimes())) {
-			return ResponseEntity.ok(campeonato.getTimes().size());
+			return ResponseEntity.ok(campeonato.getRodadas());
 		}
 		return ResponseEntity.notFound().build();
 	}
@@ -86,7 +86,7 @@ public class CampeonatoController {
 	@GetMapping("/times")
 	public ResponseEntity<?> getTimes(@RequestParam("idCampeonato") String idCampeonato ) {
 		
-		List<Time> times = campeonatoService.buscarTimes(Long.valueOf(idCampeonato));
+		Set<Time> times = campeonatoService.buscarTimes(Long.valueOf(idCampeonato));
 		if (CollectionUtils.isNotEmpty(times)) {
 			return ResponseEntity.ok(times);
 		}

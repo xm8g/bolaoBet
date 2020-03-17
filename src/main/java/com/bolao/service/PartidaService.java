@@ -23,8 +23,8 @@ public class PartidaService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<Partida> partidasDaRodada(Integer rodada) {
-		Optional<List<Partida>> partidas = partidaRepository.findByRodada(rodada);
+	public List<Partida> partidasDaRodada(Integer rodada, Long campeonato) {
+		Optional<List<Partida>> partidas = partidaRepository.findByRodadaAndCampeonato(rodada, campeonato);
 		return partidas.orElse(new ArrayList<>());
 	}
 

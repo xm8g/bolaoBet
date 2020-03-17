@@ -12,6 +12,6 @@ import com.bolao.entity.jogo.Partida;
 @Repository
 public interface PartidaRepository extends JpaRepository<Partida, Long> {
 
-	@Query("select p from Partida p where p.rodada = :rodada")
-	Optional<List<Partida>> findByRodada(int rodada);
+	@Query("select p from Partida p where p.rodada = :rodada AND p.campeonato.id = :campeonato")
+	Optional<List<Partida>> findByRodadaAndCampeonato(Integer rodada, Long campeonato);
 }

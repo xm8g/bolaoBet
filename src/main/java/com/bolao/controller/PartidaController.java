@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bolao.entity.Bolao;
 import com.bolao.entity.jogo.Campeonato;
 import com.bolao.entity.jogo.Partida;
 import com.bolao.service.CampeonatoService;
@@ -47,10 +49,18 @@ public class PartidaController {
 		return "partidas/cadastro";
 	}
 	
-	@GetMapping("/tabela/listagem/{rodada}")
-	public ResponseEntity<?> findPartidasDaRodada(@PathVariable("rodada") Integer rodada) {
+	@GetMapping("/tabela/listagem/{rodada}/{campeonato}")
+	public ResponseEntity<?> findPartidasCampeonatoPorRodada(@PathVariable("rodada") Integer rodada, @PathVariable("campeonato") Long campeonato) {
 
-		return ResponseEntity.ok(partidaService.partidasDaRodada(rodada));
+		return ResponseEntity.ok(partidaService.partidasDaRodada(rodada, campeonato));
+	}
+	
+	@GetMapping("/jogos/{rodada}")
+	public ResponseEntity<?> findPartidasPorRodada(@PathVariable("rodada") Integer rodada, HttpServletRequest req) {
+
+		Bolao bolao = (Bolao) req.getSession().getAttribute("bolao");		
+		
+		return ResponseEntity.ok(partidaService.partidasDaRodada(rodada, bolao.getCampeonato().getId()));
 	}
 	
 	@GetMapping("/resultados")

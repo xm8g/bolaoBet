@@ -2,41 +2,38 @@ $( function() {
 	
 	$("select[name='campeonato']").change(function() {
 		var c = $(this).children("option:selected").val();
-		if (!c) {
-			$("#cardTimes").empty()
-			$("#cardLocais").empty();
-			$('#rodada > option').each(function() {
-			    if ( $(this).val() !== '' ) {
-			        $(this).remove();
-			    }
-			});
-			$('.principal').attr('style', 'display: none;');
-			return;
-		}
+
+		$("#cardTimes").empty()
+		$("#cardLocais").empty();
+		$("#rodada").empty().append('<option value="0"></option>');
+		$('.principal').attr('style', 'display: none;');
 		$('.principal').attr('style', 'display: block; font-size: 12px;');
-		$.ajax({
-			method: "GET",
-			url: "/campeonatos/numeroDeTimes",
-			data: {
-				idCampeonato: c
-	        },
-			success: function( response ) {
-				if (response) {
-					for(i=0; i < response; i++) {
-						var valor = i+1;
-						$("#rodada").append(new Option(valor, valor));
+		
+		if (c) {
+			$.ajax({
+				method: "GET",
+				url: "/campeonatos/numeroDeRodadas",
+				data: {
+					idCampeonato: c
+		        },
+				success: function( response ) {
+					if (response) {
+						for(i=0; i < response; i++) {
+							var valor = i+1;
+							$("#rodada").append(new Option(valor, valor));
+						}
 					}
-				}
-			} 
-		})
+				} 
+			})
+		}
 	});
 	
 	$("select[name='rodada']").change(function() {
-		var c = $(this).children("option:selected").val();
-		$("#colRodada").empty().append('Rodada ' + c);
-		var campeonato = $("select[name='campeonato']").children("option:selected").val();
-		carregaTimes(campeonato);
-		listar(c);
+		var rodadaSelecionada = $(this).children("option:selected").val();
+		$("#colRodada").empty().append('Rodada ' + rodadaSelecionada);
+		var campeonatoId = $("select[name='campeonato']").children("option:selected").val();
+		carregaTimes(campeonatoId);
+		listar(rodadaSelecionada, campeonatoId);
 	});
 	$("input[name='data']").change(function(e) {
 		$("#error-data").empty();
@@ -114,7 +111,7 @@ $( function() {
 			data: partida,
 			success: function() {
 				clearForm();
-				listar(partida.rodada);
+				listar(partida.rodada, partida.campeonato);
 			},
 			statusCode: {
 				422: function(xhr) {
@@ -158,14 +155,14 @@ $( function() {
 		resultado.golsHTVisitante = golsHTFora;
 		resultado.golsFTMandante = golsFTCasa;
 		resultado.golsFTVisitante = golsFTFora;
-		
+		var campeonatoId = $("select[name='campeonato']").children("option:selected").val();
 		$.ajax({
 			method: "POST",
 			url : "/resultados/resultado/"+id,
 			data : resultado,
 			success: function() {
 				$('#dialog-resultado').modal('hide')
-				listar(rodada);
+				listar(rodada, campeonatoId);
 			}
 	    });
 
@@ -312,11 +309,11 @@ function carregaTimes($idCampeonato) {
 	})
 }
 
-function listar(rodada) {
+function listar(rodada, campeonatoId) {
 	moment.locale('pt-br');
 	$.ajax({
 		method: "GET",
-		url : "/partidas/tabela/listagem/"+rodada,
+		url : "/partidas/tabela/listagem/"+rodada+"/"+campeonatoId,
 		success: function( partidas ) {
 			var $TABLE = $("#tblPartidasCadastradas");
 			$TABLE.empty();

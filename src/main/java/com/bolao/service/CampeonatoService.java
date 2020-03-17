@@ -1,7 +1,8 @@
 package com.bolao.service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -43,7 +44,10 @@ public class CampeonatoService {
 		Campeonato c2 = campeonatoRepository.findById(campeonato.getId()).get();
 		c2.setNome(campeonato.getNome());
 		c2.setRodadas(campeonato.getRodadas());
-		c2.setEscudo(campeonato.getEscudo());
+		c2.getTimes().addAll(campeonato.getTimes());
+		if (campeonato.getEscudo() != null) {
+			c2.setEscudo(campeonato.getEscudo());
+		}
 	}
 
 	@Transactional(readOnly = false)
@@ -52,12 +56,12 @@ public class CampeonatoService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<Time> buscarTimes(Long id) {
+	public Set<Time> buscarTimes(Long id) {
 		Campeonato campeonato = buscarCampeonato(id);
 		if (campeonato != null) {
 			return campeonato.getTimes();
 		}
-		return new ArrayList<>();
+		return new HashSet<>();
 	}
 
 	public List<Campeonato> todos() {

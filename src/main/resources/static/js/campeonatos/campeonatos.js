@@ -159,7 +159,6 @@ $(document).ready(function() {
 								var item = '<a href="#" class="list-group-item list-group-item-action"><img width="16" height="16" class="float-left" src="data:image/png;base64,'+v.escudo.data+'" />'+v.nome+'<input type="checkbox" name="times" class="float-right" value="'+v.id+'"></a>';
 								var achou = false;
 								$.each(selecionados, function(j, selecionado) {
-									console.log($(this).val(), v.id);
 									if ($(this).val() == v.id) {
 										achou = true;
 									}
@@ -192,13 +191,14 @@ $(document).ready(function() {
 		}
 		
 	    $('.all').prop("checked",false);
-	    var items = $("#listSelecionaveis input:checked:not('.all')");
-	    var n = items.length;
+	    var atuais = $("#listSelecionados input:checked:not('.all')");
+	    var entrando = $("#listSelecionaveis input:checked:not('.all')");
+	    var n = atuais.length + entrando.length;
 	    if ($qtdeTimes != n) {
 	    	bootbox.alert('Selecione os '+$qtdeTimes+' times participantes.');
 			return;
 	    } else {
-	    	items.each(function(idx,item) {
+	    	entrando.each(function(idx,item) {
 	    		var choice = $(item);
 	    		choice.prop("checked",false);
 	    		choice.parent().appendTo("#listSelecionados");

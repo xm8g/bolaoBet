@@ -84,7 +84,7 @@ public class BolaoController {
 	public String painelMeusConvites(ModelMap model, @AuthenticationPrincipal User user) {
 		
 		Usuario usuario = usuarioService.buscarPorEmail(user.getUsername());
-		List<Bolao> boloesConvidados = bolaoService.boloesConvidados(usuario.getEmail());
+		List<Bolao> boloesConvidados = bolaoService.boloesConvidados(usuario.getEmail(), usuario.getId());
 		
 		model.addAttribute("boloesConvidados", boloesConvidados);
 		

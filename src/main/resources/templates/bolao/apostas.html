@@ -7,10 +7,52 @@
 </head>
 <body>
 	<section layout:fragment="opcao">
-		<div class="container" id="divApostas">
-			Apostas
+		<div class="container-fluid" id="divApostas">
+			<br />
+			<div class="row">
+				<div class="col-md-4">
+					<div class="card">
+						<div class="card-header">
+							<b>Partidas</b>
+						</div>
+						<div class="card-body" style="font-size: 13px;">
+							<div class="form-group">
+								<label for="rodada"><font color="red">*</font>&nbsp;&nbsp;Rodada: </label>
+								<select class="form-control" id="rodada" name="rodada">
+									<option value="0"></option>
+									<option th:each="i : ${#numbers.sequence(1, rodadas)}" th:text="${i}" th:value="${i}"></option>
+								</select>
+							</div>
+							<br />
+   							<table id="tblPartidas" style="display:none;" class="table table-sm table-condensed table-striped table-bordered">
+   							</table>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card">
+						<div class="card-header">
+							<b>Mercados</b>
+						</div>
+						<div class="card-body" style="font-size: 13px;">
+							Coloaqui as odds dos mercados
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card">
+						<div class="card-header">
+							<b>Apostas</b>
+						</div>
+						<div class="card-body" style="font-size: 13px;">
+							Colocar as apostas feitas
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
+		<script th:src="@{/js/bolao/apostas.js}" th:fragment="jsOpcoesBolao"></script>
 	</section>
-	<script th:src="@{/js/bolao/palpites.js}"></script>
+	
 </body>
 </html>

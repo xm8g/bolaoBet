@@ -54,7 +54,7 @@ function exibirTabelaDePartidas(rodada) {
 		$('#tblPalpites').empty();
 		$.ajax({
 			method : "GET",
-			url : "/partidas/tabela/listagem/" + rodada,
+			url : "/partidas/jogos/" + rodada,
 			success : function(partidas) {
 				if (partidas) {
 					$.each(partidas, function( i, partida ) {

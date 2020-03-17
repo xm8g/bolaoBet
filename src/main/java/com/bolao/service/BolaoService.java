@@ -57,8 +57,8 @@ public class BolaoService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<Bolao> boloesConvidados(String usuario) {
-		Optional<List<Bolao>> boloes = bolaoRepository.findBolaoByConvidado(usuario.trim());
+	public List<Bolao> boloesConvidados(String usuario, Long id) {
+		Optional<List<Bolao>> boloes = bolaoRepository.findBolaoByConvidadoOrCreator(usuario.trim(), id);
 		return boloes.orElse(null);
 	} 
 	

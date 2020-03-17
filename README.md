@@ -12,7 +12,7 @@ A Idéia...
 - [x] Disponibilizar na Home Page os Campeonatos que podem ser usufruidos para geração de um bolão.
 - [x] Permitir que um usuário possa selecionar um campeonato e que possa criar um bolão a partir dele, tornando-se e USER e GESTOR.
 - [x] No papel de GESTOR, o mesmo poderá enviar convites aos emails dos interessados.
-- [ ] Um usuário com perfil USER, poderá participar de um bolão ao qual foi convidado. Ele será notificado do convite ao entrar no sistema.
+- [x] Um usuário com perfil USER, poderá participar de um bolão ao qual foi convidado. Ele será notificado do convite ao entrar no sistema.
 - [ ] Ao aceitar o convite o usuário passa a ter dois perfis, USER e GUEST
 - [ ] Permitir ao GESTOR retirar o participante caso precise.
 - [ ] Permitir ao GESTOR definir as regras de premiação.
@@ -50,7 +50,7 @@ A Idéia...
 
 - [x] Cadastrar os jogos da rodada definindo todas os detalhes
 - [ ] Habilitar os mercados que poderão ter apostas para aquele jogo
-- [ ] Fazer uso da [ODDS API](https://the-odds-api.com) para definir as odds da categoria para cada jogo, pegar as odds uma hora antes do jogo. Se não cadastrá-las no dia do jogo.
+- [ ] Fazer uso da [ODDS API](https://the-odds-api.com) para definir as odds da categoria para cada jogo, pegar as odds no dia do jogo. Se não cadastrá-las no dia do jogo.
 - [ ] Processará os resultados dos palpites e apostas a qualquer momento
 
 * Uma partida ou aposta após ser processada deverá ser marcada para resolvida e não poderá mais ser avaliada.

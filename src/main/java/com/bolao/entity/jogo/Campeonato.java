@@ -1,6 +1,7 @@
 package com.bolao.entity.jogo;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
@@ -14,7 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -41,7 +41,6 @@ public class Campeonato extends AbstractEntity {
 	private String pais;
 
 	@Embedded
-	@NotNull(message = "O 'Escudo do Time' é Campo Obrigatório!")
 	private Escudo escudo;
 
 	@Min(value = 1, message = "O n° de rodadas/fases deve ser maior ou igual a 1.")
@@ -56,7 +55,7 @@ public class Campeonato extends AbstractEntity {
 			joinColumns = @JoinColumn(name = "id_campeonato", referencedColumnName = "id"),
 			inverseJoinColumns = @JoinColumn(name = "id_time", referencedColumnName = "id")
     )
-	private List<Time> times;
+	private Set<Time> times;
 
 	// evita recursividade quando o json de resposta for criado para a datatables.
 	@JsonIgnore
