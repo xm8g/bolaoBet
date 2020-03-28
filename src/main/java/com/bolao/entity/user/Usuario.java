@@ -16,17 +16,27 @@ import com.bolao.entity.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "usuario", uniqueConstraints = {@UniqueConstraint(columnNames = "avatar_id")})
-@NoArgsConstructor
 @Getter
 @Setter
 public class Usuario extends AbstractEntity {
 
+	public Usuario() {
+		super();
+	}
+
+	public Usuario(Long id) {
+		super.setId(id);
+	}
+
+	public Usuario(String email) {
+		this.email = email;
+	}
+	
 	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 

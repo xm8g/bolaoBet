@@ -45,10 +45,13 @@
 						</div>
 					</li>
 					<li sec:authorize="isAuthenticated()">
-						<a class="btn btn-dark" th:href="@{/bolao/painel}"><i class="fas fa-receipt"></i>&nbsp;&nbsp;Criar um Bolão</a>
+						<a class="btn btn-light" th:href="@{/bolao/painel}"><i class="fas fa-receipt"></i>&nbsp;&nbsp;Criar um Bolão</a>
 					</li>					
 					<li sec:authorize="isAuthenticated()">
-						<a class="btn btn-dark" th:href="@{/bolao/convites}"><i class="far fa-envelope-open"></i>&nbsp;&nbsp;Entrar no Bolão</a>
+						<a class="btn btn-light" th:href="@{/bolao/convites}"><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Entrar no Bolão</a>
+					</li>
+					<li sec:authorize="hasAuthority('ADMIN')">
+						<a class="btn btn-light" th:href="@{/processador/rodada}"><i class="fas fa-cogs"></i>&nbsp;&nbsp;Processar Rodada</a>
 					</li>
 				</ul>
 

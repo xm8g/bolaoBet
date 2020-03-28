@@ -353,6 +353,7 @@ function listar(rodada, campeonatoId) {
 
 function resultado(partida, rodada) {
 	$('#dialog-resultado').modal('show')
+	$('#placarFinal').empty()
 	$('.escudoM').empty().append(partida.mandante.nome + '   <img width="32" height="32" src="data:image/png;base64,'+partida.mandante.escudo.data+'" />');
 	$('.escudoV').empty().append('<img width="32" height="32" src="data:image/png;base64,'+partida.visitante.escudo.data+'" />   ' + partida.visitante.nome);
 	$('#idPartida').val(partida.id);

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -58,9 +59,12 @@ public class PartidaController {
 	@GetMapping("/jogos/{rodada}")
 	public ResponseEntity<?> findPartidasPorRodada(@PathVariable("rodada") Integer rodada, HttpServletRequest req) {
 
-		Bolao bolao = (Bolao) req.getSession().getAttribute("bolao");		
-		
-		return ResponseEntity.ok(partidaService.partidasDaRodada(rodada, bolao.getCampeonato().getId()));
+		Bolao bolao = (Bolao) req.getSession().getAttribute("bolao");
+		List<Partida> partidasDaRodada = partidaService.partidasDaRodada(rodada, bolao.getCampeonato().getId());
+		if (CollectionUtils.isEmpty(partidasDaRodada)) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(partidasDaRodada);
 	}
 	
 	@GetMapping("/resultados")

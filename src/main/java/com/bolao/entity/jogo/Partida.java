@@ -71,4 +71,8 @@ public class Partida extends AbstractEntity {
 	@Embedded
 	private ResultadoPartida resultado;
 	
+	private boolean encerrada;
+	
+	
+	
 }

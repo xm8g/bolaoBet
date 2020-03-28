@@ -18,6 +18,18 @@ public class BolaoBetApplication {
 	    return new LayoutDialect();
 	}
 	
+//	@Autowired
+//	JavaMailSender sender;
+//	
+//	@Override
+//	public void run(String... args) throws Exception {
+//		SimpleMailMessage message = new SimpleMailMessage();
+//		message.setTo("adonis.siqueira@gmail.com");
+//		message.setText("convite para o bolão");
+//		message.setSubject("Bolão Teste");
+//		sender.send(message);
+//	}
+	
 //	@Bean
 //	public ServletRegistrationBean<DwrSpringServlet> dwrSpringServlet() {
 //		DwrSpringServlet dwrServlet = new DwrSpringServlet();

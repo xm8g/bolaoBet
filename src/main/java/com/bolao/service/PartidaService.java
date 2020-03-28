@@ -19,12 +19,19 @@ public class PartidaService {
 	private PartidaRepository partidaRepository;
 	
 	public void salvarPartida(Partida partida) {
+		partida.setEncerrada(false);
 		partidaRepository.save(partida);
 	}
 
 	@Transactional(readOnly = true)
 	public List<Partida> partidasDaRodada(Integer rodada, Long campeonato) {
 		Optional<List<Partida>> partidas = partidaRepository.findByRodadaAndCampeonato(rodada, campeonato);
+		return partidas.orElse(new ArrayList<>());
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Partida> partidasEncerradasDaRodada(Integer rodada, Long campeonato) {
+		Optional<List<Partida>> partidas = partidaRepository.findByRodadaAndCampeonatoAndEncerrada(rodada, campeonato);
 		return partidas.orElse(new ArrayList<>());
 	}
 
@@ -37,5 +44,6 @@ public class PartidaService {
 	public void editarPlacarFinal(Long id, ResultadoPartida resultadoPartida) {
 		Partida partida = partidaRepository.findById(id).get();
 		partida.setResultado(resultadoPartida);
+		partida.setEncerrada(true);
 	}
 }

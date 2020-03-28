@@ -18,4 +18,11 @@ public abstract class AbstractEntity implements Serializable {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	public boolean hasNotId() {
+		return id == null;
+	}
+
+	public boolean hasId() {
+		return id != null;
+	}
 }

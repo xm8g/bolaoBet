@@ -13,17 +13,14 @@ A Idéia...
 - [x] Permitir que um usuário possa selecionar um campeonato e que possa criar um bolão a partir dele, tornando-se e USER e GESTOR.
 - [x] No papel de GESTOR, o mesmo poderá enviar convites aos emails dos interessados.
 - [x] Um usuário com perfil USER, poderá participar de um bolão ao qual foi convidado. Ele será notificado do convite ao entrar no sistema.
-- [ ] Ao aceitar o convite o usuário passa a ter dois perfis, USER e GUEST
 - [ ] Permitir ao GESTOR retirar o participante caso precise.
-- [ ] Permitir ao GESTOR definir as regras de premiação.
 
 * O sistema terá as seguintes regras de pontuação dos palpites do campeonato:
   1. placar exato      18 pontos
   2. gols do vencedor  13 pontos
   3. saldo do vencedor 11 pontos
   4. resultado          9 pontos
-  5. gols do perdedor   5 pontos
-  6. empate garantido   3 pontos
+  5. empate garantido   5 pontos
 
 * O sistema terá apostas que poderão se converter em mais pontos para o competidor
 * O sistema adotará os seguintes mercados:
@@ -51,7 +48,10 @@ A Idéia...
 - [x] Cadastrar os jogos da rodada definindo todas os detalhes
 - [ ] Habilitar os mercados que poderão ter apostas para aquele jogo
 - [ ] Fazer uso da [ODDS API](https://the-odds-api.com) para definir as odds da categoria para cada jogo, pegar as odds no dia do jogo. Se não cadastrá-las no dia do jogo.
-- [ ] Processará os resultados dos palpites e apostas a qualquer momento
+- [ ] Processará os resultados dos palpites e apostas a cada partida
+- [ ] A cada resultado processado, a classificação será atualizada para visualização de todos
+- [ ] As apostas também serão processadas ao se colocar o placar do jogo nos dois tempos
+- [ ] No header o jogador poderá ver seus pontos e seu saldo de COINS
 
 * Uma partida ou aposta após ser processada deverá ser marcada para resolvida e não poderá mais ser avaliada.
 
@@ -63,7 +63,8 @@ A Idéia...
   4. Ver seus ganhos de apostas (paginado)
   5. A tabela deve mostrar os pontos e coins de cada participante
   6. Ver os ganhos de todos na rodada
-
+  7. Ver um gráfico em linha da evolução
+  
 * O sistema deverá ser desenvolvido com:
   1. SpringBoot
   2. SpringSecurity

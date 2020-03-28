@@ -3,6 +3,8 @@ package com.bolao.controller;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.mail.MessagingException;
+
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -13,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -79,7 +82,7 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/cadastro/salvar")
-	public String salvar(Usuario usuario, BindingResult result) {
+	public String salvar(Usuario usuario, BindingResult result) throws MessagingException {
 		try {
 			usuarioService.salvarCadastroUsuario(usuario);
 		} catch (DataIntegrityViolationException e) {
@@ -118,6 +121,49 @@ public class UsuarioController {
 
 			return IOUtils.toByteArray(in);
 		}
+	}
+	
+	@GetMapping("/confirmacao/cadastro")
+	public String respostaConfirmacaoCadastroPaciente(@RequestParam("codigo") String codigo, RedirectAttributes attr) {
+		usuarioService.ativarCadastroUsuario(codigo);
+		
+		attr.addFlashAttribute("alerta", "sucesso");
+		attr.addFlashAttribute("titulo", "Cadastro Ativado!");
+		attr.addFlashAttribute("texto", "Parabéns, seu cadastro está ativo.");
+		attr.addFlashAttribute("subtexto", "Pode logar.");
+		
+		return "redirect:/login";
+	}
+	
+	@GetMapping("/p/recuperar/senha")
+	public String redefinirSenha(String email, ModelMap model) throws MessagingException {
+		usuarioService.pedidoRedefinicaoSenha(email);
+		model.addAttribute("sucesso", "Em instantes você receberá um email para redefinir sua senha");
+		model.addAttribute("usuario",  new Usuario(email));
+		
+		return "usuario/recuperar-senha";
+	}
+	
+	@GetMapping("/p/redefinir/senha")
+	public String pedidoRedefinirSenha() {
+		
+		return "usuario/pedido-recuperar-senha";
+	}
+	
+	@PostMapping("p/nova/senha")
+	public String confirmacaoRedefinirSenha(Usuario usuario, ModelMap model) throws MessagingException {
+		Usuario u = usuarioService.buscarPorEmail(usuario.getEmail());
+		if (!u.getCodigoVerificador().equals(usuario.getCodigoVerificador())) {
+			model.addAttribute("falha", "Código verificador não confere!");
+			return "usuario/recuperar-senha";
+		}
+		u.setCodigoVerificador(null);
+		usuarioService.alterarSenha(u, usuario.getSenha());
+		model.addAttribute("alerta", "sucesso");
+		model.addAttribute("titulo", "Senha redefinida!");
+		model.addAttribute("texto", "Já pode logar no sistema.");
+				
+		return "login";
 	}
 
 }

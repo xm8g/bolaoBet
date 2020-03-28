@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
@@ -24,6 +25,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import com.bolao.entity.jogo.Campeonato;
 import com.bolao.entity.user.Participante;
 import com.bolao.entity.user.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,6 +58,10 @@ public class Bolao extends AbstractEntity {
     @CollectionTable(name = "bolao_convites", joinColumns = @JoinColumn(name = "bolao_id", referencedColumnName = "id"))
     @Column(name = "convidado")
     private List<String> convidados = new ArrayList<>();
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "bolao", fetch = FetchType.EAGER, orphanRemoval = true)
+	private Set<ClassificacaoRodada> classificacao;
 	
 	@Transient
 	private String nomeCampeonato;

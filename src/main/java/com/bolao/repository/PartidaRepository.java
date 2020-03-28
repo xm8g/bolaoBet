@@ -14,4 +14,7 @@ public interface PartidaRepository extends JpaRepository<Partida, Long> {
 
 	@Query("select p from Partida p where p.rodada = :rodada AND p.campeonato.id = :campeonato")
 	Optional<List<Partida>> findByRodadaAndCampeonato(Integer rodada, Long campeonato);
+	
+	@Query("select p from Partida p where p.rodada = :rodada AND p.campeonato.id = :campeonato AND p.encerrada = true")
+	Optional<List<Partida>> findByRodadaAndCampeonatoAndEncerrada(Integer rodada, Long campeonato);
 }

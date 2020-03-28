@@ -2,7 +2,7 @@ package com.bolao.entity.user;
 
 public enum PerfilTipo {
 
-	ADMIN(1, "ADMIN"), GESTOR(2, "GESTOR"), CONVIDADO(3, "CONVIDADO"), USUARIO(4, "USUARIO");
+	ADMIN(1, "ADMIN"), USUARIO(2, "USUARIO");
 	
 	private long cod;
 	private String desc;

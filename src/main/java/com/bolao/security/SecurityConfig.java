@@ -17,8 +17,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private static final String ADMIN = PerfilTipo.ADMIN.getDesc();
 	private static final String USUARIO = PerfilTipo.USUARIO.getDesc();
-	private static final String GESTOR = PerfilTipo.GESTOR.getDesc();
-	private static final String CONVIDADO = PerfilTipo.CONVIDADO.getDesc();
 
 	@Autowired
 	private UsuarioService usuarioService;
@@ -35,7 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 							"/usuario/cadastro/realizado", 
 							"/usuario/cadastrar/avatar", 
 							"/usuario/image",
-							"/usuario/avatar/salvar", 
+							"/usuario/avatar/salvar",
+							"/usuario/confirmacao/cadastro",
+							"/usuario/p/**",
 							"/usuario/confirmar/senha").permitAll()
 				// acessos privados ADMIN
 				.antMatchers("/times/**", 

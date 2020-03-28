@@ -78,6 +78,11 @@ function exibirTabelaDePartidas(rodada) {
 							palpitar(partida, rodada, palpitePartida);
 						});
 					});
+				} 
+			},
+			statusCode: {
+				404: function() {
+					bootbox.alert('Não há partidas liberadas para esta rodada.');
 				}
 			}
 		})

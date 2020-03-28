@@ -32,6 +32,12 @@ function exibirTabelaDePartidas(rodada) {
 						});
 					});
 				}
+			},
+			,
+			statusCode: {
+				404: function() {
+					bootbox.alert('Não há partidas liberadas para esta rodada.');
+				}
 			}
 		})
 	}
