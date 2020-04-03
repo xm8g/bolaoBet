@@ -1,7 +1,6 @@
 package com.bolao.business;
 
 import com.bolao.entity.bets.Palpite;
-import com.bolao.entity.jogo.Partida;
 import com.bolao.entity.jogo.ResultadoPartida;
 
 public interface AnalisadorPalpite {

@@ -10,8 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bolao.entity.bets.Palpite;
-import com.bolao.entity.jogo.Partida;
+import com.bolao.entity.bets.Pontuacao;
 import com.bolao.repository.PalpiteRepository;
+import com.bolao.repository.projection.PontuacaoDetalhada;
 
 @Service
 public class PalpiteService {
@@ -30,6 +31,9 @@ public class PalpiteService {
 		p.setDataDoPalpite(LocalDateTime.now());
 		p.setValido(true);
 		p.setProcessado(false);
+		Pontuacao pontuacao = new Pontuacao();
+		pontuacao.setPontos(-1);
+		p.setPontosGanhos(pontuacao);
 		palpiteRepository.save(p);
 	}
 	
@@ -47,9 +51,39 @@ public class PalpiteService {
 		}
 	}
 	
+	@Transactional(readOnly = false)
+	public void atualizarPalpiteProcessado(Long idPalpite, Pontuacao pontuacao) {
+		Optional<Palpite> optionalPalpite = palpiteRepository.findById(idPalpite);
+		
+		Palpite palpite = optionalPalpite.orElse(null);
+		if (palpite != null) {
+			palpite.setPontosGanhos(pontuacao);
+		}
+	}
+	
+	@Transactional(readOnly = false)
+	public void atualizarPalpiteProcessadoEClassificado(Long idPalpite) {
+		Optional<Palpite> optionalPalpite = palpiteRepository.findById(idPalpite);
+		
+		Palpite palpite = optionalPalpite.orElse(null);
+		if (palpite != null) {
+			palpite.setProcessado(true);
+		}
+	}
+	
 	@Transactional(readOnly = true)
 	public List<Palpite> palpitesDaPartidaParaSeremProcessados(Long idPartida) {
 		Optional<List<Palpite>> palpites = palpiteRepository.findPalpitesNaoProcessadosByPartida(idPartida);
 		return palpites.orElse(new ArrayList<>());
+	}
+	
+	@Transactional(readOnly = false)
+	public void encerrarPalpitesPontuadosNaoProcessadosDoParticipante(Long idParticipante) {
+		palpiteRepository.updatePalpitesNaoProcessadosByParticipante(idParticipante);
+	}
+
+	@Transactional(readOnly = true)
+	public PontuacaoDetalhada buscarBalancoFinalDosPalpitesDoPartipanteNaRodada(Long id) {
+		return palpiteRepository.pontuacaoDetalhadaPorParticipante(id);
 	}
 }

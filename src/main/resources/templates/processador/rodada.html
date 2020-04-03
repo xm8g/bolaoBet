@@ -41,19 +41,28 @@
 					<div class="col-md-4"></div>
 				</div>
 				<hr />
+				<div class="alert alert-danger" id="divAlertRodadaEncerrada" style="display: none"></div>
 				<div class="row principal" style="display: none;">
 					<div class="col-md-12 text-center">
 						<h3>Partidas Encerradas</h3>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-2"></div>
+					<div class="col-md-1"></div>
 					<div class="col-md-9 text-center">
 						<table id="tblPartidasEncerradas" class="table table-sm table-striped"></table>
 					</div>
-					<div class="col-md-1"><button id="btnProcess" type="button" class="btn-lg btn-primary mt-5" style="display: none;"><i class="fas fa-cog"></i>Processar Palpites<i class="fas fa-cog"></i></button></div>
+					<div class="col-md-2">
+						<button class="btn btn-lg btn-primary mt-5 ld-ext-right" id="btnProcess" style="display: none;">
+  							Processar Palpites
+  							<div class="ld ld-spinner ld-spin"></div>
+						</button>
+					</div>
 				</div>
 			</form>
+		</div>
+		<div id="overlay" onclick="off()" style="text-align: center">
+			<div class="loader"></div>
 		</div>
 	</section>
 	<script	th:src="@{/js/processamento/rodada.js(v=${version})}" th:fragment="js"></script>

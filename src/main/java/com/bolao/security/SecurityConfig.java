@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 							"/usuario/confirmar/senha").permitAll()
 				// acessos privados ADMIN
 				.antMatchers("/times/**", 
-							"/campeonatos/**").hasAuthority(ADMIN) 
+							"/campeonatos/**", "/processador/**", "/resultados/**").hasAuthority(ADMIN) 
 				.antMatchers("/partidas/nova", 
 							"/partidas/resultados", 
 							"/partidas/salvar", 
@@ -51,7 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 							"/bolao/salvar", 
 							"/bolao/painel", 
 							"/bolao/dashboard", 
-							"/bolao/convites")
+							"/bolao/convites",
+							"/classificacao/**",
+							"/palpites/**")
 				.hasAnyAuthority(ADMIN, USUARIO)
 				.antMatchers("/partidas/tabela/listagem/*").hasAnyAuthority(ADMIN, USUARIO)
 				// MEDICO)

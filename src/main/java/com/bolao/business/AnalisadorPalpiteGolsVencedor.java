@@ -21,32 +21,27 @@ public class AnalisadorPalpiteGolsVencedor implements AnalisadorPalpite {
 		Integer palpiteGolsMandante = palpite.getGolsMandante(); 
 		Integer palpiteGolsVisitante = palpite.getGolsVisitante();
 		
-		Integer golsDoVencedor = -1;
-		Integer palpiteGolsVencedor = -1;
-		
 		if (placarGolsMandante == placarGolsVisitante || palpiteGolsMandante == palpiteGolsVisitante) { //sem análise em caso de empate
 			return proximo.acertouNestaCategoria(palpite, resultadoPartida);
 		}
 		
-		if (placarGolsMandante > placarGolsVisitante) {
-			golsDoVencedor = placarGolsMandante;	
-		} else if (placarGolsMandante < placarGolsVisitante) {
-			golsDoVencedor = placarGolsVisitante;	
+		if (placarGolsMandante > placarGolsVisitante && palpiteGolsMandante > palpiteGolsVisitante) {
+			if (placarGolsMandante == palpiteGolsMandante && placarGolsVisitante != palpiteGolsVisitante) {
+				ResultadoAnalisePalpite resultadoAnalisePalpite = new ResultadoAnalisePalpite();
+				resultadoAnalisePalpite.setPontos(MotivoPonto.GOLS_VENCEDOR.getPontos());
+				resultadoAnalisePalpite.setMotivo(MotivoPonto.GOLS_VENCEDOR);
+				return resultadoAnalisePalpite;
+			}
 		}
-		if (palpiteGolsMandante > palpiteGolsVisitante) {
-			palpiteGolsVencedor = palpiteGolsMandante;	
-		} else if (palpiteGolsMandante < palpiteGolsVisitante) {
-			palpiteGolsVencedor = palpiteGolsVisitante;	
+		if (placarGolsMandante < placarGolsVisitante && palpiteGolsMandante < palpiteGolsVisitante) {
+			if (placarGolsVisitante == palpiteGolsVisitante && placarGolsMandante != palpiteGolsMandante) {
+				ResultadoAnalisePalpite resultadoAnalisePalpite = new ResultadoAnalisePalpite();
+				resultadoAnalisePalpite.setPontos(MotivoPonto.GOLS_VENCEDOR.getPontos());
+				resultadoAnalisePalpite.setMotivo(MotivoPonto.GOLS_VENCEDOR);
+				return resultadoAnalisePalpite;
+			}
 		}
 		
-		
-		if (golsDoVencedor > -1 && palpiteGolsVencedor > -1 && (golsDoVencedor == palpiteGolsVencedor)) {
-			ResultadoAnalisePalpite resultadoAnalisePalpite = new ResultadoAnalisePalpite();
-			resultadoAnalisePalpite.setPontos(MotivoPonto.GOLS_VENCEDOR.getPontos());
-			resultadoAnalisePalpite.setMotivo(MotivoPonto.GOLS_VENCEDOR);
-			
-			return resultadoAnalisePalpite;
-		}
 		return proximo.acertouNestaCategoria(palpite, resultadoPartida);
 	}
 

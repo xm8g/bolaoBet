@@ -69,11 +69,22 @@ function exibirTabelaDePartidas(rodada) {
 						}
 						var visitante = '<td><img width="28" height="28" src="data:image/png;base64,'+partida.visitante.escudo.data+'" />  ' + partida.visitante.nome + '</td>';
 						var palpitarBtn = '<td><button type="button" id="' + idBtnPalpite + '" class="btn btn-success">Palpite</button></td>';
-						var palpitarBtnDisabled = '<td><button type="button" id="' + idBtnPalpite + '" class="btn btn-danger" disabled>Expirou</button></td>';
-						var botaoPalpite = expirouDataDoJogo(partida.data) ? palpitarBtnDisabled : palpitarBtn;  
-						var partidaVencida = '<td></td>';
-						var row = '<tr>' + mandante + golsMandante + '<td>X</td>' + golsVisitante + visitante + botaoPalpite + '</tr>';
+						var palpitarBtnDisabled = '<td><button type="button" id="' + idBtnPalpite + '" class="btn btn-danger" disabled>Encerrado</button></td>';
+						var botaoPalpite = expirouDataDoJogo(partida.data) ? palpitarBtnDisabled : palpitarBtn;
+						
+						var resultado = '';
+						var rowResult = '';
+						
+						if(palpitePartida.pontosGanhos.pontos > -1) {
+							resultado = traduzResultado(palpitePartida.pontosGanhos.motivoPonto, palpitePartida.pontosGanhos.pontos);
+							rowResult = '<tr class="table-secondary"><td colspan="7">Resultado:   ' + extrairResultado(partida.resultado) + '</td></tr>';
+						}
+						
+						var row = '<tr>' + mandante + golsMandante + '<td>X</td>' + golsVisitante + visitante + botaoPalpite + resultado + '</tr>';
+						
 						$('#tblPalpites').append(row);
+						$('#tblPalpites').append(rowResult);
+						
 						$('#'+idBtnPalpite).on('click', function(){
 							palpitar(partida, rodada, palpitePartida);
 						});
@@ -87,6 +98,31 @@ function exibirTabelaDePartidas(rodada) {
 			}
 		})
 	}
+}
+
+function traduzResultado(motivo, pontos) {
+	//EXATO(18), GOLS_VENCEDOR(13), SALDO_GOLS(11), RESULTADO(9), EMPATE_GARANTIDO(5), RED(0);
+	if (motivo == 'EXATO') {
+		return '<td><img src="../image/icons/iconfinder_check_1930264.png" /> Cravou!<p>' + pontos + ' pontos.</p></td>'
+	} else if (motivo == 'GOLS_VENCEDOR') {
+		return '<td><img src="../image/icons/iconfinder_check_1930264.png" /> Gols do Vencedor!<p>' + pontos + ' pontos.</p></td>'
+	} else if (motivo == 'SALDO_GOLS') {
+		return '<td><img src="../image/icons/iconfinder_check_1930264.png" /> Saldo de Gols.<p>' + pontos + ' pontos.</p></td>'
+	} else if (motivo == 'RESULTADO') {
+		return '<td width="200px;"><img src="../image/icons/iconfinder_check_1930264.png" /> Acertou o Resultado!<p>' + pontos + ' pontos.</p></td>'
+	} else if (motivo == 'EMPATE_GARANTIDO') {
+		return '<td><img src="../image/icons/iconfinder_check_1930264.png" /> Empate Garantido!<p>' + pontos + ' pontos.</p></td>'
+	} else if (motivo == 'RED') {
+		return '<td><img src="../image/icons/iconfinder_sign-error_299045.png" /> RED!<p>' + pontos + ' ponto.</p></td>'
+	}
+	return '';
+}
+
+function extrairResultado(resultado) {
+	var golsM = resultado.golsHTMandante + resultado.golsFTMandante;
+	var golsV = resultado.golsHTVisitante + resultado.golsFTVisitante;
+	
+	return golsM + '  x  ' + golsV;
 }
 
 function obterPalpiteJaCadastradoDaPartida(partida) {
@@ -120,7 +156,6 @@ function expirouDataDoJogo(data) {
 }
 
 function palpitar(partida, rodada, palpitePartida) {
-	console.log(partida.id, rodada, palpitePartida.id)
 	moment.locale('pt-br');
 	
 	if (typeof palpitePartida.golsMandante == 'number') {

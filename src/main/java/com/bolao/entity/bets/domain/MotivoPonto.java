@@ -2,7 +2,7 @@ package com.bolao.entity.bets.domain;
 
 
 public enum MotivoPonto {
-	EXATO(18), GOLS_VENCEDOR(13), SALDO_GOLS(11), RESULTADO(9), EMPATE_GARANTIDO(5);
+	EXATO(18), GOLS_VENCEDOR(13), SALDO_GOLS(11), RESULTADO(9), EMPATE_GARANTIDO(5), RED(0);
 	
 	Integer pontos;
 	

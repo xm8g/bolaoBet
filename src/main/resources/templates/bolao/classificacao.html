@@ -8,7 +8,33 @@
 <body>
 	<section layout:fragment="opcao">
 		<div class="container" id="divClassificacao">
-			Classificação
+			<br />
+			<table class="table table-striped table-bordered">
+				<thead>
+					<tr align="center">
+						<th>Colocação</th>
+						<th>Participante</th>
+						<th>Total</th>
+						<th title="Acertos por Cravada">PC</th>
+						<th title="Acertos de Gols do Vencedor">PG</th>
+						<th title="Acertos de Saldo do Vencedor">PS</th>
+						<th title="Acertos do Resultado">PR</th>
+						<th title="Empates Garantido">EG</th>
+					</tr>
+				</thead>
+				<tbody id="tblClassif">
+					<tr th:each="cg, status : ${classificacaoGeral}" align="center" th:class="${cg.currentUser} ? 'table-success'">
+    					<td th:text="${status.count}" />
+    					<td align="left"><img width="32" height="32" th:src="@{'data:image/png;base64,'+ ${cg.avatar}}" />&nbsp;&nbsp;<span th:text="${cg.nomeParticipante}"></span></td>
+    					<td th:text="${cg.pontos}" />
+    					<td th:text="${cg.pontuacaoPorCravadas}" />
+    					<td th:text="${cg.pontuacaoPorPlacarDoVencedor}" />
+    					<td th:text="${cg.pontuacaoPorAcertoDeSaldo}" />
+    					<td th:text="${cg.pontuacaoPorAcertoDeResultado}" />
+    					<td th:text="${cg.pontuacaoPorEmpateGarantido}" />
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</section>
 	<script th:src="@{/js/bolao/classificacao.js}"></script>

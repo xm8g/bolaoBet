@@ -34,16 +34,21 @@ $( function() {
 	});
 	
 	$('#btnProcess').click(function() {
+		$(this).addClass("running");
 		$.ajax({
+			async: false,
 			method : "POST",
 			url : "/processador/rodada/process",
 			contentType:'application/json',
 			dataType: "json",
 			data : JSON.stringify(partidasDaRodada),
 			success : function() {
-				console.log('processado')
+				console.log('processados palpites')
 			}
 		});
+		var campeonatoId = $("select[name='campeonato']").children("option:selected").val();
+		var rodada = $("select[name='rodada']").children("option:selected").val();
+		atualizarClassificacaoDosBoloesComEsteCampeonato(campeonatoId, rodada)
 	});
 });
 
@@ -52,6 +57,7 @@ function listar(rodada, campeonatoId, partidasDaRodada) {
 	$('.principal').attr('style', 'display:block');
 	var $TABLE = $("#tblPartidasEncerradas");
 	$.ajax({
+		async: false,
 		method: "GET",
 		url : "/processador/partidasEncerradas/"+rodada+"/"+campeonatoId,
 		success: function( partidas ) {
@@ -74,7 +80,7 @@ function listar(rodada, campeonatoId, partidasDaRodada) {
 			});
 			$TABLE.append('</tbody>');
 			$TABLE.attr('style', 'display:block');
-			$('#btnProcess').attr('style', 'display:block');
+			$('#btnProcess').attr('style', 'display:block;');
 		},
 		statusCode: {
 			404: function() {
@@ -83,4 +89,40 @@ function listar(rodada, campeonatoId, partidasDaRodada) {
 			}
 		}
     });
+	
+	$.ajax({
+		method: "GET",
+		url : "/processador/isClassificacaoEncerrada/"+rodada+"/"+campeonatoId,
+		success: function() {
+			$('#divAlertRodadaEncerrada').attr('style', 'display:block');
+			$('#divAlertRodadaEncerrada').empty().append('Esta rodada já foi processada e classificada!')
+			$('#btnProcess').attr('disabled', true);
+		},
+		statusCode: {
+			422: function() {
+				$('#divAlertRodadaEncerrada').attr('style', 'display:block');
+				$('#divAlertRodadaEncerrada').empty().append('Não há bolões criados para este campeonato!')
+				$('#btnProcess').attr('style', 'display:none');
+			}
+		},
+		statusCode: {
+			404: function() {
+				$('#divAlertRodadaEncerrada').attr('style', 'display:none');
+				$('#btnProcess').attr('style', 'display:block');
+				$('#btnProcess').attr('disabled', false);
+			}
+		}
+    });
+	
+}
+
+function atualizarClassificacaoDosBoloesComEsteCampeonato(campeonatoId, rodada) {
+	$.ajax({
+		method : "GET",
+		url : "/processador/classificacao/process/" + campeonatoId + "/" + rodada,
+		success : function() {
+			$('#btnProcess').removeClass("running");
+			c
+		}
+	});
 }

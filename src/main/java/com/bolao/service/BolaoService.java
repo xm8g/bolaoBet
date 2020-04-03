@@ -62,6 +62,11 @@ public class BolaoService {
 		return boloes.orElse(null);
 	} 
 	
+	@Transactional(readOnly = true)
+	public List<Bolao> boloesPorCampeonato(Long idCampeonato) {
+		Optional<List<Bolao>> boloes = bolaoRepository.findBolaoByCampeonato(idCampeonato);
+		return boloes.orElse(null);
+	} 
 	
 
 }

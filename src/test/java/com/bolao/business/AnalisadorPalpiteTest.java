@@ -187,9 +187,9 @@ public class AnalisadorPalpiteTest {
 		Assert.assertThat(resultadoAnalisePalpite1.getPontos(), CoreMatchers.is(0));
 		Assert.assertThat(resultadoAnalisePalpite1.getMotivo(), CoreMatchers.nullValue());
 		
-		//Cenário Mandante Vence
+		//Cenário Visitante Vence
 		palpite = new Palpite();
-		palpite.setGolsMandante(6);
+		palpite.setGolsMandante(3);
 		palpite.setGolsVisitante(2);
 			
 		ResultadoAnalisePalpite resultadoAnalisePalpite2 = analisaSeCravou.acertouNestaCategoria(palpite, partidaVisitanteVence.getResultado());

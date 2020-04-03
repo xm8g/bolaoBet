@@ -49,7 +49,7 @@ A Idéia...
 - [ ] Habilitar os mercados que poderão ter apostas para aquele jogo
 - [ ] Fazer uso da [ODDS API](https://the-odds-api.com) para definir as odds da categoria para cada jogo, pegar as odds no dia do jogo. Se não cadastrá-las no dia do jogo.
 - [ ] Processará os resultados dos palpites e apostas a cada partida
-- [ ] A cada resultado processado, a classificação será atualizada para visualização de todos
+- [x] A cada resultado processado, a classificação será atualizada para visualização de todos
 - [ ] As apostas também serão processadas ao se colocar o placar do jogo nos dois tempos
 - [ ] No header o jogador poderá ver seus pontos e seu saldo de COINS
 
@@ -57,13 +57,12 @@ A Idéia...
 
 * O GUEST poderá:
 
-  1. Ver a classificação da rodada.
-  2. Ver a classificação geral.
-  3. Ver seus ganhos de palpites (paginado)
-  4. Ver seus ganhos de apostas (paginado)
-  5. A tabela deve mostrar os pontos e coins de cada participante
-  6. Ver os ganhos de todos na rodada
-  7. Ver um gráfico em linha da evolução
+- [ ]  1. Ver a classificação da rodada.
+- [x]  2. Ver a classificação geral.
+- [x]  3. Ver seus ganhos de palpites
+- [ ]  4. Ver seus ganhos de apostas (paginado)
+- [x]  5. A tabela deve mostrar os pontos e coins de cada participante
+- [x]  6. Ver um gráfico em linha da evolução
   
 * O sistema deverá ser desenvolvido com:
   1. SpringBoot

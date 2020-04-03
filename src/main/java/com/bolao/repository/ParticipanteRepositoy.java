@@ -10,7 +10,7 @@ import com.bolao.entity.user.Participante;
 
 public interface ParticipanteRepositoy extends JpaRepository<Participante, Long> {
 
-	@Query("select b.participantes from Bolao b where b.id = :id")
+	@Query("SELECT b.participantes FROM Bolao b WHERE b.id = :id")
 	Optional<List<Participante>> findParticipanteByBolao(Long id);
 	
 }

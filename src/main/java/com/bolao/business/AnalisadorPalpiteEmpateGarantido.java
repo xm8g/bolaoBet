@@ -31,7 +31,8 @@ public class AnalisadorPalpiteEmpateGarantido implements AnalisadorPalpite {
 		}
 		
 		if (this.proximo == null) {
-			resultadoAnalisePalpite.setPontos(0);
+			resultadoAnalisePalpite.setPontos(MotivoPonto.RED.getPontos());
+			resultadoAnalisePalpite.setMotivo(MotivoPonto.RED);
 		}
 		return resultadoAnalisePalpite;
 	}

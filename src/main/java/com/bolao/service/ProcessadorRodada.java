@@ -13,8 +13,8 @@ import com.bolao.business.AnalisadorPalpiteResultadoSimples;
 import com.bolao.business.AnalisadorPalpiteSaldoGols;
 import com.bolao.business.ResultadoAnalisePalpite;
 import com.bolao.entity.bets.Palpite;
+import com.bolao.entity.bets.Pontuacao;
 import com.bolao.entity.jogo.Partida;
-import com.bolao.entity.jogo.ResultadoPartida;
 
 /**
  * 1- Selecionar o campeonato e a rodada
@@ -37,14 +37,21 @@ public class ProcessadorRodada {
 		for (Partida partida : partidasEncerradasDaRodada) {
 			List<Palpite> palpitesDaPartidaParaSeremProcessados = palpiteService.palpitesDaPartidaParaSeremProcessados(partida.getId());
 			for (Palpite palpite : palpitesDaPartidaParaSeremProcessados) {
-				//de posse do palpite do particpante
-				//passa-la para um processador de pontos
-				//ao obter a pontuacao gravar na classe palpite a pontuação, o motivo
+				ResultadoAnalisePalpite analisePalpite = processaPalpite(palpite, partida);
+				Pontuacao pontuacao = new Pontuacao();
+				pontuacao.setPontos(analisePalpite.getPontos());
+				pontuacao.setMotivoPonto(analisePalpite.getMotivo());
+
+//				Integer golsM = partida.getResultado().getGolsHTMandante() + partida.getResultado().getGolsFTMandante(); 
+//				Integer golsV = partida.getResultado().getGolsHTVisitante() + partida.getResultado().getGolsFTVisitante();
+//				System.out.println(palpite.getGolsMandante() + "X" + palpite.getGolsVisitante() + " | " + golsM + "X"+ golsV + " | " + analisePalpite.getPontos() + " | " + analisePalpite.getMotivo());
+				palpiteService.atualizarPalpiteProcessado(palpite.getId(), pontuacao);
 			}
 		}
 	}
-	
-	private void processaPalpite(Palpite palpite, Partida partida) {
+
+
+	private ResultadoAnalisePalpite processaPalpite(Palpite palpite, Partida partida) {
 		final AnalisadorPalpite analisaSeCravou = new AnalisadorPalpiteCravada();
 		final AnalisadorPalpite analisaSeAcertouGolsDoVencedor = new AnalisadorPalpiteGolsVencedor();
 		final AnalisadorPalpite analisaSeAcertouSaldo = new AnalisadorPalpiteSaldoGols();
@@ -56,6 +63,6 @@ public class ProcessadorRodada {
 		analisaSeAcertouSaldo.proximaAnalise(analisaResultadoSimples);
 		analisaResultadoSimples.proximaAnalise(analisaEmpateGarantido);
 		
-		ResultadoAnalisePalpite resultadoAnalisePalpite = analisaSeCravou.acertouNestaCategoria(palpite, partida.getResultado());
+		return analisaSeCravou.acertouNestaCategoria(palpite, partida.getResultado());
 	}
 }

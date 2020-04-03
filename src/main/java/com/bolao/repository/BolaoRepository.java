@@ -18,5 +18,8 @@ public interface BolaoRepository extends JpaRepository<Bolao, Long> {
 	@Query("select b from Bolao b where :convidado MEMBER OF b.convidados OR b.gestor.id = :id")
 	Optional<List<Bolao>> findBolaoByConvidadoOrCreator(String convidado, Long id);
 	
+	@Query("select b from Bolao b where b.campeonato.id = :id")
+	Optional<List<Bolao>> findBolaoByCampeonato(Long id);
+	
 	
 }
