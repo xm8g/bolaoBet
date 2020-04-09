@@ -23,11 +23,20 @@ public class ClassificacaoRodada extends AbstractEntity {
 	@NotNull
 	private Integer rodada;
 	
+	private Integer pontuacaoPorCravadas;
+	
+	private Integer pontuacaoPorPlacarDoVencedor;
+	
+	private Integer pontuacaoPorAcertoDeSaldo;
+	
+	private Integer pontuacaoPorAcertoDeResultado;
+	
+	private Integer pontuacaoPorEmpateGarantido;
+	
 	@OneToOne
 	@JoinColumn(name = "id_participante")
 	private Participante participante;
 	
-	@NotNull
 	private Integer pontos;
 	
 	

@@ -27,13 +27,24 @@ public class ClassificacaoService {
 		classificacaoRodadaRepository.save(classificacao);
 	}
 	
+	@Transactional(readOnly = false)
+	public void desclassificarRodadaDoBolao(Integer rodada, Long bolaoId) {
+		classificacaoRodadaRepository.deleteRodadaByBolao(rodada, bolaoId);
+	}
+	
 	public boolean classificacaoJaFoiProcessada(Long idBolao, Integer rodada) {
 		return classificacaoRodadaRepository.existsClassificacaoRodada(idBolao, rodada);
 	}
 	
+	public List<Integer> buscaRodadasDoBolaoQueJaForamClassificadas(Long idBolao) {
+		return classificacaoRodadaRepository.findRodadasClassifcadas(idBolao);
+	}
+	
 	@Transactional(readOnly = true)
-	public List<ClassificacaoLista> obterClassificacao(Bolao bolao, User user) {
-		List<ClassificacaoGeralView> viewBasica = classificacaoRodadaRepository.findClassificacaoByBolao(bolao.getId());
+	public List<ClassificacaoLista> obterClassificacao(Bolao bolao, User user, Integer rodada) {
+		List<ClassificacaoGeralView> viewBasica = rodada == 0 ? 
+				classificacaoRodadaRepository.findClassificacaoByBolao(bolao.getId()) : 
+				classificacaoRodadaRepository.findClassificacaoByRodada(bolao.getId(), rodada);
 		List<ClassificacaoLista> classificacaoGeral = new ArrayList<>();
 		if (CollectionUtils.isNotEmpty(viewBasica)) {
 			for (ClassificacaoGeralView view : viewBasica) {
@@ -48,11 +59,11 @@ public class ClassificacaoService {
 		classificacaoLista.setPontos(view.getSomaPontuacaoGeral());
 		classificacaoLista.setAvatar(Base64.getEncoder().encodeToString(view.getUsuario().getAvatar().getData()));
 		classificacaoLista.setNomeParticipante(view.getUsuario().getEmail());
-		classificacaoLista.setPontuacaoPorCravadas(view.getParticipante().getPontuacaoPorCravadas());
-		classificacaoLista.setPontuacaoPorPlacarDoVencedor(view.getParticipante().getPontuacaoPorPlacarDoVencedor());
-		classificacaoLista.setPontuacaoPorAcertoDeSaldo(view.getParticipante().getPontuacaoPorAcertoDeSaldo());
-		classificacaoLista.setPontuacaoPorAcertoDeResultado(view.getParticipante().getPontuacaoPorAcertoDeResultado());
-		classificacaoLista.setPontuacaoPorEmpateGarantido(view.getParticipante().getPontuacaoPorEmpateGarantido());
+		classificacaoLista.setPontuacaoPorCravadas(view.getSomaCravadas());
+		classificacaoLista.setPontuacaoPorPlacarDoVencedor(view.getSomaGolsDoVencedor());
+		classificacaoLista.setPontuacaoPorAcertoDeSaldo(view.getSomaSaldoDoVencedor());
+		classificacaoLista.setPontuacaoPorAcertoDeResultado(view.getSomaResultados());
+		classificacaoLista.setPontuacaoPorEmpateGarantido(view.getSomaEmpateGarantido());
 		classificacaoLista.setCurrentUser(view.getParticipante().getUsuario().getEmail().equals(user.getUsername()));
 		
 		return classificacaoLista;

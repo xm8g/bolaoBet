@@ -7,23 +7,7 @@ $( function() {
 
 		$("#rodada").empty().append('<option value="0"></option>');
 		
-		if (c) {
-			$.ajax({
-				method: "GET",
-				url: "/campeonatos/numeroDeRodadas",
-				data: {
-					idCampeonato: c
-		        },
-				success: function( response ) {
-					if (response) {
-						for(i=0; i < response; i++) {
-							var valor = i+1;
-							$("#rodada").append(new Option(valor, valor));
-						}
-					}
-				} 
-			})
-		}
+		listarRodadasByCampeonato(c);
 	});
 	
 	$("select[name='rodada']").change(function() {
@@ -52,8 +36,30 @@ $( function() {
 	});
 });
 
+function listarRodadasByCampeonato(campeonatoId) {
+	if (campeonatoId) {
+		$.ajax({
+			async: false,
+			method: "GET",
+			url: "/campeonatos/numeroDeRodadas",
+			data: {
+				idCampeonato: campeonatoId
+	        },
+			success: function( response ) {
+				if (response) {
+					for(i=0; i < response; i++) {
+						var valor = i+1;
+						$("#rodada").append(new Option(valor, valor));
+					}
+				}
+			} 
+		})
+	}
+}
+
 function listar(rodada, campeonatoId, partidasDaRodada) {
 	moment.locale('pt-br');
+	var rodadaPendente = false;
 	$('.principal').attr('style', 'display:block');
 	var $TABLE = $("#tblPartidasEncerradas");
 	$.ajax({
@@ -86,16 +92,20 @@ function listar(rodada, campeonatoId, partidasDaRodada) {
 			404: function() {
 				$TABLE.append('Não há partidas encerradas para esta rodada.')
 				$TABLE.attr('style', 'display:block');
+				rodadaPendente = true;
 			}
 		}
     });
+	
+	if (rodadaPendente) return;
 	
 	$.ajax({
 		method: "GET",
 		url : "/processador/isClassificacaoEncerrada/"+rodada+"/"+campeonatoId,
 		success: function() {
 			$('#divAlertRodadaEncerrada').attr('style', 'display:block');
-			$('#divAlertRodadaEncerrada').empty().append('Esta rodada já foi processada e classificada!')
+			$('#divAlertRodadaEncerrada').empty().append('Esta rodada já foi processada e classificada! Se deseja voltar atrás clique no botão ao lado   ' +
+					'<a href="/classificacao/rollback/' + rodada + '/' + campeonatoId + '" class="btn btn-warning"><i class="fas fa-undo"></i>&nbsp;&nbsp;Rollback</a>')
 			$('#btnProcess').attr('disabled', true);
 		},
 		statusCode: {
@@ -122,7 +132,6 @@ function atualizarClassificacaoDosBoloesComEsteCampeonato(campeonatoId, rodada) 
 		url : "/processador/classificacao/process/" + campeonatoId + "/" + rodada,
 		success : function() {
 			$('#btnProcess').removeClass("running");
-			c
 		}
 	});
 }

@@ -39,4 +39,9 @@ public interface PalpiteRepository extends JpaRepository<Palpite, Long>{
 			+ "AND p.pontosGanhos.pontos > -1")
 	int updatePalpitesNaoProcessadosByParticipante(Long idParticipante);
 	
+	@Modifying
+	@Query("UPDATE Palpite p SET p.processado = false, p.pontosGanhos.pontos = -1, p.pontosGanhos.motivoPonto = NULL "
+			+ "WHERE p.partida.id = :idPartida")
+	int rollbackPalpitesPorPartida(Long idPartida);
+	
 }

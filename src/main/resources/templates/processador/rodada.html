@@ -67,9 +67,18 @@
 	</section>
 	<script	th:src="@{/js/processamento/rodada.js(v=${version})}" th:fragment="js"></script>
 	<script th:inline="javascript" th:fragment="inlinescript">
-		/*<![CDATA[*/
-		
-		/*]]>*/
+		$(document).ready(function () {
+			var partidasDaRodada = [];
+			var rodada = [[${rodada != null ? rodada : 0}]];
+			var campeonato = [[${campeonatoId != null ? campeonatoId : 0}]];
+			if (rodada != 0 && campeonato != 0) {
+				toastr.success('Rollback Efetuado', 'Sucesso')
+				$("select[name='campeonato']").val(campeonato);
+				listarRodadasByCampeonato(campeonato);
+				$("select[name='rodada']").val(rodada);
+				listar(rodada, campeonato, partidasDaRodada);
+			}
+		}); 
 	</script>
 </body>
 </html>

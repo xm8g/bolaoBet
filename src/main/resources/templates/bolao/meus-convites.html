@@ -31,9 +31,6 @@
 								<p class="card-text">
 									Participantes Ativos: <th:block th:text="${#lists.size(b.participantes)}" />
 								</p>
-								<p class="card-text" th:if="${#lists.size(b.participantes) > 0}">
-									Colocar aqui o líder e seu avatar
-								</p>
 							</div>
 							<div class="card-footer">
 								<a th:href="@{/bolao/join/{id}(id=${b.id})}" class="btn btn-success">Entrar</a>

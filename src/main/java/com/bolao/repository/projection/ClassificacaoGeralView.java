@@ -7,6 +7,16 @@ public interface ClassificacaoGeralView {
 
 	Integer getSomaPontuacaoGeral();
 	
+	Integer getSomaCravadas();
+	
+	Integer getSomaGolsDoVencedor();
+	
+	Integer getSomaSaldoDoVencedor();
+	
+	Integer getSomaResultados();
+	
+	Integer getSomaEmpateGarantido();
+	
 	Participante getParticipante();
 	
 	Usuario getUsuario();

@@ -13,7 +13,7 @@ A Idéia...
 - [x] Permitir que um usuário possa selecionar um campeonato e que possa criar um bolão a partir dele, tornando-se e USER e GESTOR.
 - [x] No papel de GESTOR, o mesmo poderá enviar convites aos emails dos interessados.
 - [x] Um usuário com perfil USER, poderá participar de um bolão ao qual foi convidado. Ele será notificado do convite ao entrar no sistema.
-- [ ] Permitir ao GESTOR retirar o participante caso precise.
+- [ ] Permitir ao ADMIN manipular os dados no banco para não ter que acessar a base de dados diretamente para fins de manutenção.
 
 * O sistema terá as seguintes regras de pontuação dos palpites do campeonato:
   1. placar exato      18 pontos
@@ -52,6 +52,8 @@ A Idéia...
 - [x] A cada resultado processado, a classificação será atualizada para visualização de todos
 - [ ] As apostas também serão processadas ao se colocar o placar do jogo nos dois tempos
 - [ ] No header o jogador poderá ver seus pontos e seu saldo de COINS
+- [ ] O ADMIN terá acesso ao banco para deletar palpites
+- [ ] O ADMIN ao deletar palpite, caso mesmo já tenha sido processado. Atualizar a pontuação do participante envolvido
 
 * Uma partida ou aposta após ser processada deverá ser marcada para resolvida e não poderá mais ser avaliada.
 

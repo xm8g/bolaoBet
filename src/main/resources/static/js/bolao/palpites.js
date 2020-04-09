@@ -75,7 +75,7 @@ function exibirTabelaDePartidas(rodada) {
 						var resultado = '';
 						var rowResult = '';
 						
-						if(palpitePartida.pontosGanhos.pontos > -1) {
+						if(palpitePartida.pontosGanhos && palpitePartida.pontosGanhos.pontos > -1) {
 							resultado = traduzResultado(palpitePartida.pontosGanhos.motivoPonto, palpitePartida.pontosGanhos.pontos);
 							rowResult = '<tr class="table-secondary"><td colspan="7">Resultado:   ' + extrairResultado(partida.resultado) + '</td></tr>';
 						}

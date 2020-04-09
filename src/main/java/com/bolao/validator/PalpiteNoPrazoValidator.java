@@ -12,7 +12,7 @@ public class PalpiteNoPrazoValidator implements ConstraintValidator<PalpiteNoPra
 	@Override
 	public boolean isValid(Palpite palpite, ConstraintValidatorContext context) {
 
-		if (palpite != null && LocalDateTime.now().isAfter(palpite.getPartida().getData())) {
+		if (palpite != null && !palpite.getPartida().isEncerrada() && LocalDateTime.now().isAfter(palpite.getPartida().getData())) {
 			return false;
 		}
 		return true;

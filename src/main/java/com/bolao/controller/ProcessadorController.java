@@ -105,7 +105,6 @@ public class ProcessadorController {
 			if (CollectionUtils.isNotEmpty(participantes)) {
 				for (Participante participante : participantes) {
 					PontuacaoDetalhada pontuacaoDetalhadaPorParticipante = palpiteService.buscarBalancoFinalDosPalpitesDoPartipanteNaRodada(participante.getId());
-					participanteService.atualizarPontuacaoDetalhadaDoParticipante(participante.getId(), pontuacaoDetalhadaPorParticipante);
 					ClassificacaoRodada c = geraClassificacaoRodadaDoParticipante(rodada, bolao, participante, pontuacaoDetalhadaPorParticipante);
 					classificacaoService.salvarClassificacaoDaRodada(c);
 					palpiteService.encerrarPalpitesPontuadosNaoProcessadosDoParticipante(participante.getId());
@@ -144,6 +143,11 @@ public class ProcessadorController {
 		classificacaoRodada.setRodada(rodada);
 		classificacaoRodada.setParticipante(participante);
 		classificacaoRodada.setPontos(pontuacaoDetalhadaPorParticipante.getPontuacaoGeral());
+		classificacaoRodada.setPontuacaoPorCravadas(pontuacaoDetalhadaPorParticipante.getPontuacaoPorCravadas());
+		classificacaoRodada.setPontuacaoPorPlacarDoVencedor(pontuacaoDetalhadaPorParticipante.getPontuacaoPorPlacarDoVencedor());
+		classificacaoRodada.setPontuacaoPorAcertoDeSaldo(pontuacaoDetalhadaPorParticipante.getPontuacaoPorAcertoDeSaldo());
+		classificacaoRodada.setPontuacaoPorAcertoDeResultado(pontuacaoDetalhadaPorParticipante.getPontuacaoPorAcertoDeResultado());
+		classificacaoRodada.setPontuacaoPorEmpateGarantido(pontuacaoDetalhadaPorParticipante.getPontuacaoPorEmpateGarantido());
 		
 		return classificacaoRodada;
 	}

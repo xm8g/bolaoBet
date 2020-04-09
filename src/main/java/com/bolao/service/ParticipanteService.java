@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bolao.entity.user.Participante;
 import com.bolao.repository.ParticipanteRepositoy;
-import com.bolao.repository.projection.PontuacaoDetalhada;
 
 @Service
 public class ParticipanteService {
@@ -24,18 +23,5 @@ public class ParticipanteService {
 		return participantes.orElse(new ArrayList<>());
 	}
 	
-	@Transactional(readOnly = false)
-	public void atualizarPontuacaoDetalhadaDoParticipante(Long idParticipante, PontuacaoDetalhada pontuacao) {
-		Optional<Participante> optionalParticipante = participanteRepositoy.findById(idParticipante);
-		
-		Participante participante = optionalParticipante.orElse(null);
-		if (participante != null) {
-			participante.somarPontuacaoGeral(pontuacao.getPontuacaoGeral());
-			participante.somarPontuacaoPorCravadas(pontuacao.getPontuacaoPorCravadas());
-			participante.somarPontuacaoPorPlacarDoVencedors(pontuacao.getPontuacaoPorPlacarDoVencedor());
-			participante.somarPontuacaoPorAcertoDeSaldo(pontuacao.getPontuacaoPorAcertoDeSaldo());
-			participante.somarPontuacaoPorAcertoDeResultado(pontuacao.getPontuacaoPorAcertoDeResultado());
-			participante.somarPontuacaoPorEmpateGarantido(pontuacao.getPontuacaoPorEmpateGarantido());
-		}
-	}
+	
 }

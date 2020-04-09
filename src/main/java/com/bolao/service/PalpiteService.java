@@ -81,6 +81,11 @@ public class PalpiteService {
 	public void encerrarPalpitesPontuadosNaoProcessadosDoParticipante(Long idParticipante) {
 		palpiteRepository.updatePalpitesNaoProcessadosByParticipante(idParticipante);
 	}
+	
+	@Transactional(readOnly = false)
+	public int rollbackPalpitesPontuadosProcessadosPorPartida(Long idPartida) {
+		return palpiteRepository.rollbackPalpitesPorPartida(idPartida);
+	}
 
 	@Transactional(readOnly = true)
 	public PontuacaoDetalhada buscarBalancoFinalDosPalpitesDoPartipanteNaRodada(Long id) {
