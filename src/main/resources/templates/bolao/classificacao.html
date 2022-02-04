@@ -45,8 +45,63 @@
 					</tr>
 				</tbody>
 			</table>
+			<canvas id="linhaDeEvolucao"></canvas>	
 		</div>
+		<script th:src="@{/js/bolao/classificacao.js}" th:fragment="jsOpcoesBolao"></script>
+		<script th:inline="javascript" th:fragment="inlinescript">
+			$(document).ready(function () {
+				var rodadas = [[${rodadas}]];
+				var historico = [[${historico}]];
+				console.log(rodadas.sort());
+				console.log(historico);
+				var ctx = $('#linhaDeEvolucao');
+				
+				var labels = rodadas.sort();
+				var dataset = [];
+				
+				historico.forEach(function( participante, index ) {
+					var historicoColocacoes = {
+						fill: false,
+						lineTension: 0.1,
+						label: participante.nome,
+						borderColor: getRandomRgb(),
+						data: participante.historicoClassificacoes	
+					}
+					dataset.push(historicoColocacoes);
+				});
+				
+				var classificacaoPorRodadas = new Chart(ctx, {
+				    type: 'line',
+				    data: {
+				    	labels: labels, //passar aqui um array com as rodadas,
+				    	datasets: dataset,
+				    },
+				    options: {
+				    	legend: {
+				    		display: true,
+				    		position: 'right'
+				    	},
+				    	title: {
+				    		display: true,
+				    		fontSize: 20,
+				    		text: "HISTÓRICO DAS CLASSIFICAÇÕES POR RODADA"
+				    	},
+				    	scales: {
+				            yAxes: [{
+				                ticks: {
+				                	reverse: true,
+				                	maxTicksLimit: dataset.length
+				                },
+				                scaleLabel: {
+				                    display: true,
+				                    labelString: 'colocação'
+				                }
+				            }]
+				        }
+				    }
+				});
+			}); 
+		</script>
 	</section>
-	<script th:src="@{/js/bolao/classificacao.js}"></script>
 </body>
 </html>

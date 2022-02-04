@@ -51,15 +51,13 @@ A Idéia...
 - [ ] Processará os resultados dos palpites e apostas a cada partida
 - [x] A cada resultado processado, a classificação será atualizada para visualização de todos
 - [ ] As apostas também serão processadas ao se colocar o placar do jogo nos dois tempos
-- [ ] No header o jogador poderá ver seus pontos e seu saldo de COINS
-- [ ] O ADMIN terá acesso ao banco para deletar palpites
-- [ ] O ADMIN ao deletar palpite, caso mesmo já tenha sido processado. Atualizar a pontuação do participante envolvido
+- [ ] No header o jogador poderá ver seu saldo de COINS
 
 * Uma partida ou aposta após ser processada deverá ser marcada para resolvida e não poderá mais ser avaliada.
 
 * O GUEST poderá:
 
-- [ ]  1. Ver a classificação da rodada.
+- [x]  1. Ver a classificação da rodada.
 - [x]  2. Ver a classificação geral.
 - [x]  3. Ver seus ganhos de palpites
 - [ ]  4. Ver seus ganhos de apostas (paginado)

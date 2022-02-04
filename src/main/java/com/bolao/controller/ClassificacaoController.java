@@ -21,11 +21,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bolao.entity.Bolao;
 import com.bolao.entity.jogo.Partida;
+import com.bolao.entity.user.Participante;
 import com.bolao.form.RodadaClassificacao;
+import com.bolao.repository.projection.ClassificacaoChart;
 import com.bolao.repository.projection.ClassificacaoLista;
 import com.bolao.service.BolaoService;
 import com.bolao.service.ClassificacaoService;
 import com.bolao.service.PalpiteService;
+import com.bolao.service.ParticipanteService;
 import com.bolao.service.PartidaService;
 
 @Controller
@@ -38,6 +41,8 @@ public class ClassificacaoController {
 	@Autowired
 	private PartidaService partidaService;
 	
+	@Autowired
+	private ParticipanteService participanteService;
 	
 	@Autowired
 	private PalpiteService palpiteService;
@@ -52,7 +57,10 @@ public class ClassificacaoController {
 		
 		model.addAttribute("rodadaClassificacao", new RodadaClassificacao());
 		Bolao bolao = (Bolao) req.getSession().getAttribute("bolao");
-		model.addAttribute("rodadas", classificacaoService.buscaRodadasDoBolaoQueJaForamClassificadas(bolao.getId()));
+		
+		List<Integer> rodadasDoBolaoQueJaForamClassificadas = classificacaoService.buscaRodadasDoBolaoQueJaForamClassificadas(bolao.getId());
+		
+		model.addAttribute("rodadas", rodadasDoBolaoQueJaForamClassificadas);
 		
 		List<ClassificacaoLista> classificacao = classificacaoService.obterClassificacao(bolao, user, 0);
 		if (CollectionUtils.isEmpty(classificacao)) {
@@ -62,11 +70,71 @@ public class ClassificacaoController {
 		     
 		    Collections.sort(classificacao, classificacaoPorPontosComparator.reversed());
 			
-			model.addAttribute("classificacaoGeral", classificacao);	
+			model.addAttribute("classificacaoGeral", classificacao);
+			
+			List<ClassificacaoChart> historicoDeClassificacoesPorParticipante = new ArrayList<>();
+			
+			criaListaComOsParticipantes(historicoDeClassificacoesPorParticipante, bolao.getId());
+			
+			List<ClassificacaoLista> historicoEvolucao = new ArrayList<>();
+			for(Integer rodada : rodadasDoBolaoQueJaForamClassificadas) {
+				List<ClassificacaoLista> classificacaoRodada = classificacaoService.obterClassificacao(bolao, user, rodada);
+				somarComClassificacaoAnterior(historicoEvolucao, classificacaoRodada);
+				Collections.sort(historicoEvolucao, classificacaoPorPontosComparator.reversed());
+				
+				int ranking = 1;
+				for (ClassificacaoLista c : historicoEvolucao) {
+					colocarNoHistoricoAPosicaoDesteParticipante(historicoDeClassificacoesPorParticipante, c.getNomeParticipante(), ranking);
+					ranking++;
+				}
+				
+				model.addAttribute("historico", historicoDeClassificacoesPorParticipante);
+			}
 		}
 		return "bolao/classificacao";
 	}
 	
+	private void somarComClassificacaoAnterior(List<ClassificacaoLista> historicoEvolucao,
+			List<ClassificacaoLista> classificacaoRodada) {
+		if (historicoEvolucao.isEmpty()) {
+			historicoEvolucao.addAll(classificacaoRodada); 
+			return;
+		}
+		List<ClassificacaoLista> novaClassificacaoSomada = new ArrayList<>();
+		for(ClassificacaoLista h : historicoEvolucao)
+			for (ClassificacaoLista classificacaoLista : classificacaoRodada) {
+				if (h.getNomeParticipante().equals(classificacaoLista.getNomeParticipante())) {
+					ClassificacaoLista c = new ClassificacaoLista();
+					c.setNomeParticipante(classificacaoLista.getNomeParticipante());
+					c.setPontos(h.getPontos() + classificacaoLista.getPontos());
+					novaClassificacaoSomada.add(c);
+				}
+			}
+		historicoEvolucao.clear();
+		historicoEvolucao.addAll(novaClassificacaoSomada);
+		
+	}
+
+	private void colocarNoHistoricoAPosicaoDesteParticipante(
+			List<ClassificacaoChart> historicoDeClassificacoesPorParticipante, String nomeParticipante, int ranking) {
+		for (ClassificacaoChart classificacaoChart : historicoDeClassificacoesPorParticipante) {
+			if (nomeParticipante.equals(classificacaoChart.getNome())) {
+				classificacaoChart.addRanking(ranking);
+			}
+		}
+		
+	}
+	
+	private void criaListaComOsParticipantes(List<ClassificacaoChart> historicoDeClassificacoesPorParticipante, Long idBolao) {
+		List<Participante> participantesDoBolao = participanteService.participantesDoBolao(idBolao);
+		for (Participante participante : participantesDoBolao) {
+			ClassificacaoChart classificacaoChart = new ClassificacaoChart();
+			classificacaoChart.setNome(participante.getUsuario().getEmail());
+			historicoDeClassificacoesPorParticipante.add(classificacaoChart);
+		}
+	}
+	
+
 	@PostMapping("/tipo")
 	public String classificacaoPorRodada(RodadaClassificacao rodadaClassificacao, Model model, HttpServletRequest req, @AuthenticationPrincipal User user) {
 		
