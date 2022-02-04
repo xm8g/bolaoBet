@@ -1,0 +1,1 @@
+INSERT INTO `usuarios_tem_perfis` (`usuario_id`, `perfil_id`) VALUES (9, 1);
